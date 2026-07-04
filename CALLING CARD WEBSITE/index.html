@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MEMORYA QR — Modern QR Memorial Plaques</title>
+    <link rel="icon" href="hexa.ico" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.1/400.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.1/500.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.1/600.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.1/700.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5.1.1/400.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5.1.1/600.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        cream: '#FAF8F5',
+                        warm: '#F5F0EB',
+                        stone: '#E8E2DA',
+                        muted: '#A89F95',
+                        deep: '#5C544D',
+                        dark: '#3A3530',
+                        darker: '#2A2520',
+                        gold: '#C4A882',
+                        goldDark: '#A88A64',
+                    },
+                    boxShadow: {
+                        'soft': '0 2px 20px rgba(0,0,0,0.06)',
+                        'raised': '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',
+                        'elevated': '0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06)',
+                        'glossy': '0 4px 16px rgba(196,168,130,0.35), 0 2px 8px rgba(0,0,0,0.08)',
+                        'glossy-dark': '0 4px 20px rgba(168,138,100,0.4), 0 2px 10px rgba(0,0,0,0.15)',
+                        'inner-light': 'inset 0 1px 3px rgba(255,255,255,0.15)',
+                        'inner-dark': 'inset 0 1px 2px rgba(0,0,0,0.25), inset 0 -1px 2px rgba(255,255,255,0.05)',
+                        'neu-light': '6px 6px 12px #d1cbc3, -6px -6px 12px #ffffff',
+                        'neu-dark': '4px 4px 8px #1a1714, -4px -4px 8px #3a332c',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #FAF8F5 0%, #F5F0EB 100%);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: #3A3530;
+        }
+        
+        ::-webkit-scrollbar { width: 0; }
+        
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .tap-scale {
+            transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s ease;
+            cursor: pointer;
+        }
+        .tap-scale:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.12) !important;
+        }
+        
+        .hex-deco {
+            position: absolute;
+            opacity: 0.04;
+            pointer-events: none;
+            filter: blur(0.5px);
+            z-index: 0;
+        }
+        
+        .menu-overlay {
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        .menu-overlay.is-open {
+            transform: translateX(0);
+        }
+        
+        .glossy-btn {
+            background: linear-gradient(180deg, #5C544D 0%, #3A3530 45%, #2A2520 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(196,168,130,0.35), 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .glossy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 55%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.08) 60%, transparent 100%);
+            border-radius: inherit;
+            pointer-events: none;
+        }
+        .glossy-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 8%; right: 8%;
+            height: 30%;
+            background: radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .glossy-btn-dark {
+            background: linear-gradient(180deg, #5C544D 0%, #3A3530 45%, #2A2520 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(168,138,100,0.4), 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .glossy-btn-dark::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 70%, transparent 100%);
+            border-radius: inherit;
+            pointer-events: none;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+        }
+        .glass-dark {
+            background: rgba(58, 53, 48, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(196,168,130,0.15);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        
+        .masonry {
+            column-count: 2;
+            column-gap: 12px;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 12px;
+        }
+        
+        .video-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .video-card img, .video-card video {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        /* Navbar scroll transitions */
+        .nav-scrolled {
+            background: rgba(42, 37, 32, 0.97) !important;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.25), inset 0 -1px 0 rgba(196,168,130,0.08);
+            border-bottom: 1px solid rgba(196,168,130,0.06);
+            border-radius: 0 !important;
+            border-top: none !important;
+            border-left: none !important;
+            border-right: none !important;
+            margin: 0 !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+        
+        .nav-scrolled .nav-inner {
+            max-width: 100% !important;
+        }
+        
+    
+        
+        .nav-scrolled .nav-logo-text {
+            font-size: 0.9375rem !important;
+        }
+        
+        .nav-scrolled .nav-menu-btn {
+            width: 2.5rem !important;
+            height: 2.5rem !important;
+        }
+        
+
+        
+        .nav-scrolled .nav-gap {
+            gap: 0.625rem !important;
+        }
+        
+        .nav-scrolled .nav-btn-wrap {
+            width: 2.25rem !important;
+            height: 2.25rem !important;
+        }
+        
+        .page-loader {
+            animation: pageLoad 0.6s ease-out;
+        }
+        @keyframes pageLoad {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .divider-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #D4CFC7, transparent);
+        }
+        
+        .section-pad {
+            padding: 2rem 1.25rem;
+        }
+        
+        .neu-card {
+            background: linear-gradient(145deg, #ffffff, #f0ebe6);
+            box-shadow: 6px 6px 14px #d1cbc3, -6px -6px 14px #ffffff;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+        
+        .texture-overlay {
+            position: relative;
+        }
+        .texture-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c4a882' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+            opacity: 0.6;
+            z-index: -1;
+        }
+        
+        .hero-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+        }
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            pointer-events: none;
+        }
+        .hero-slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            position: relative;
+        }
+        .hero-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 1.25rem;
+        }
+        
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 1rem;
+        }
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            max-width: 95vw;
+            max-height: 85vh;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .modal-content img, .modal-content video {
+            max-width: 100%;
+            max-height: 85vh;
+            display: block;
+            object-fit: contain;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .modal-close:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        
+        .video-modal video {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            border-radius: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .masonry { column-count: 3; }
+        }
+        
+        @supports (padding: max(0px)) {
+            .safe-top { padding-top: max(0.75rem, env(safe-area-inset-top)); }
+            .safe-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+        }
+    </style>
+</head>
+<body class="bg-cream text-deep texture-overlay">
+
+    <!-- Hexagon Decorative SVGs -->
+    <svg class="hex-deco" style="top: 100px; right: -20px; width: 120px;" viewBox="0 0 100 100" fill="currentColor">
+        <polygon points="50,2 95,26 95,74 50,98 5,74 5,26" fill="#5C544D"/>
+    </svg>
+    <svg class="hex-deco" style="top: 600px; left: -10px; width: 80px;" viewBox="0 0 100 100" fill="currentColor">
+        <polygon points="50,2 95,26 95,74 50,98 5,74 5,26" fill="#5C544D"/>
+    </svg>
+
+    <!-- Navbar - Blends on Scroll -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out safe-top">
+        <div class="nav-inner w-full px-3 transition-all duration-500 ease-in-out">
+            <div id="navBarInner" class="flex items-center justify-between glass-dark rounded-2xl px-4 py-3 transition-all duration-500 ease-in-out max-w-lg mx-auto">
+                <!-- Left: Logo -->
+                    <div class="nav-gap flex items-center gap-3 flex-shrink-0 transition-all duration-500 ease-in-out">
+
+                        <div class="nav-btn-wrap flex items-center justify-center flex-shrink-0 transition-all duration-500 ease-in-out"
+                            style="
+                                width: 42px;
+                                height: 42px;
+                                overflow: visible;
+                                background: transparent;
+                                box-shadow: none;
+                            ">
+                            
+                            <img 
+                                src="HEXAICON.png" 
+                                alt="MEMORYA QR Logo"
+                                class="nav-logo-icon transition-all duration-500 ease-in-out"
+                                style="
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: contain;
+                                    display: block;
+                                "
+                            >
+                        </div>
+
+                        <span class="nav-logo-text font-serif text-lg font-semibold tracking-wide whitespace-nowrap transition-all duration-500 ease-in-out"
+                            style="
+                                color: #F5E6CC;
+                                letter-spacing: 1px;
+                            ">
+                            MEMORYA QR
+                        </span>
+
+                    </div>
+                
+                <!-- Right: Menu Button -->
+                <button id="menuToggle" class="nav-menu-btn w-11 h-11 rounded-xl glossy-btn-dark flex items-center justify-center shadow-glossy-dark tap-scale flex-shrink-0 overflow-hidden transition-all duration-500 ease-in-out" aria-label="Open menu">
+                    <img id="menuIcon" 
+                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23C4A882' stroke-width='2' stroke-linecap='round'%3E%3Cline x1='3' y1='6' x2='21' y2='6'/%3E%3Cline x1='3' y1='12' x2='21' y2='12'/%3E%3Cline x1='3' y1='18' x2='21' y2='18'/%3E%3C/svg%3E" 
+                         alt="Menu" 
+                         class="nav-menu-icon w-6 h-6 object-contain transition-all duration-500 ease-in-out"
+                         style="filter: brightness(0) saturate(100%) invert(76%) sepia(24%) saturate(374%) hue-rotate(353deg) brightness(89%) contrast(87%);">
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Slide-in Menu Overlay -->
+    <div id="menuOverlay" class="menu-overlay fixed inset-0 z-[60]">
+        <div id="menuBackdrop" class="absolute inset-0 bg-darker/60 backdrop-blur-sm" onclick="closeMenu()"></div>
+        <div class="absolute top-0 right-0 bottom-0 w-[85%] max-w-[300px] glass-dark rounded-l-3xl shadow-elevated p-5 pt-16 flex flex-col">
+            <button onclick="closeMenu()" class="absolute top-3 right-3 w-9 h-9 rounded-xl bg-stone/20 border border-gold/10 flex items-center justify-center tap-scale overflow-hidden">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23C4A882' stroke-width='2' stroke-linecap='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E" 
+                     alt="Close" 
+                     class="w-5 h-5 object-contain"
+                     style="filter: brightness(0) saturate(100%) invert(76%) sepia(24%) saturate(374%) hue-rotate(353deg) brightness(89%) contrast(87%);">
+            </button>
+            
+            <div class="flex flex-col gap-2 mt-2">
+                <a href="#gallery" onclick="closeMenu()" class="tap-scale px-4 py-3.5 rounded-2xl bg-white/5 border border-gold/10 hover:bg-white/10 transition-colors text-center text-sm font-medium text-cream">
+                    Gallery
+                </a>
+                <a href="#videos" onclick="closeMenu()" class="tap-scale px-4 py-3.5 rounded-2xl bg-white/5 border border-gold/10 hover:bg-white/10 transition-colors text-center text-sm font-medium text-cream">
+                    Videos
+                </a>
+                <a href="#samples" onclick="closeMenu()" class="tap-scale px-4 py-3.5 rounded-2xl bg-white/5 border border-gold/10 hover:bg-white/10 transition-colors text-center text-sm font-medium text-cream">
+                    WEB Samples
+                </a>
+                <a href="#about" onclick="closeMenu()" class="tap-scale px-4 py-3.5 rounded-2xl bg-white/5 border border-gold/10 hover:bg-white/10 transition-colors text-center text-sm font-medium text-cream">
+                    About
+                </a>
+                <div class="divider-line my-2 opacity-30"></div>
+                <a href="https://afablechalil.netlify.app/" target="_blank" rel="noopener" class="tap-scale glossy-btn px-4 py-4 rounded-2xl text-center text-sm font-semibold text-white shadow-glossy mt-1">
+                    View Portfolio
+                </a>
+            </div>
+            
+            <div class="mt-auto pt-5 text-center">
+                <p class="text-xs text-cream/70">Premium Memorial Plaques</p>
+                <p class="text-[10px] text-cream/40 mt-1">Crafted with care & respect</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal" onclick="closeModal(event)">
+        <div class="modal-close" onclick="closeImageModal()">
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </div>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Enlarged view">
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="modal video-modal" onclick="closeModal(event)">
+        <div class="modal-close" onclick="closeVideoModal()">
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </div>
+        <video id="modalVideo" controls playsinline>
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page-loader">
+        
+        <!-- Hero Section -->
+        <section class="section-pad pt-32 pb-6">
+            <div class="text-center fade-in-section">
+                <div class="inline-block mb-5">
+
+    <div style="
+        width: 64px;
+        height: 64px;
+        overflow: hidden;
+    ">
+
+        <img 
+            src="HEXAICON.png"
+            alt="Memorya QR Logo"
+            style="
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                display: block;
+            "
+        >
+
+    </div>
+
+</div>
+                <h1 class="font-serif text-2xl font-semibold text-dark leading-tight mb-3">
+                    Modern Memorial<br>Hexagon Plaques
+                </h1>
+                <p class="text-sm text-muted leading-relaxed max-w-[280px] mx-auto px-2">
+                   Pang display sa bahay or sa burol Premium QR-coded lapida na pwede lagyan ng flower at patungan ng alternative chargable kandila pwede  <B> (MGA ALALANG HINDI MAKAKALIMUTAN NUNG SYA AY NABUBUHAY PA)</B>
+                </p>
+            </div>
+        </section>
+
+        <!-- Featured Hero Image -->
+        <section class="px-4 pb-6 fade-in-section">
+            <div class="hero-slider shadow-elevated border border-stone/30 max-w-lg mx-auto neu-card p-1">
+                <div class="hero-slide active" data-index="0">
+                    <img src="ORIGINAL4.jfif" 
+                         alt="Modern Hexagon Memorial Plaque" 
+                         class="tap-scale"
+                         onclick="openImageModal(this.src)"
+                         loading="eager">
+                </div>
+                <div class="hero-slide" data-index="1">
+                    <img src="ORIGINAL2.jfif" 
+                         alt="QR Memorial Plaque" 
+                         class="tap-scale"
+                         onclick="openImageModal(this.src)"
+                         loading="lazy">
+                </div>
+                <div class="hero-slide" data-index="2">
+                    <img src="ORIGINAL1.jfif" 
+                         alt="Hexagon Photo Frame Memorial" 
+                         class="tap-scale"
+                         onclick="openImageModal(this.src)"
+                         loading="lazy">
+                </div>
+            </div>
+            <p class="text-center text-[11px] text-muted/70 mt-3 font-medium tracking-wide uppercase">Premium Sintra Board Series • Tap to enlarge</p>
+        </section>
+
+        <!-- Divider -->
+        <div class="flex items-center justify-center gap-3 px-5 py-4 fade-in-section">
+            <div class="flex-1 divider-line"></div>
+            <div class="w-4 h-4 rounded-lg glossy-btn flex items-center justify-center shadow-soft">
+                <svg width="10" height="10" viewBox="0 0 100 100" fill="#fff">
+                    <polygon points="50,5 93,27 93,73 50,95 7,73 7,27"/>
+                </svg>
+            </div>
+            <div class="flex-1 divider-line"></div>
+        </div>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="section-pad fade-in-section">
+            <div class="text-center mb-5">
+                <span class="text-[10px] font-semibold tracking-[0.2em] uppercase text-gold">Portfolio</span>
+                <h2 class="font-serif text-xl font-semibold text-dark mt-1.5">PWEDE KA MAMILI DITO NG DESIGN</h2>
+                <p class="text-[11px] text-muted mt-1.5"><b>SEND MO SA AKIN SA FACEBOOK</b></p>
+                <p class="text-[11px] text-muted mt-1.5">Tap any image to view in full size</p>
+            </div>
+            
+            <div class="masonry max-w-lg mx-auto">
+                <div class="masonry-item neu-card rounded-2xl overflow-hidden tap-scale">
+                    <img src="ORIGINAL2.jfif" 
+                         alt="QR Sintra Plaque" 
+                         class="w-full h-auto rounded-t-2xl cursor-pointer"
+                         onclick="openImageModal(this.src)"
+                         loading="lazy">
+                    <div class="p-3">
+                        <p class="text-[11px] text-muted text-center">Classic Black & Gold Tribute</p>
+                    </div>
+                </div>
+                
+                <div class="masonry-item neu-card rounded-2xl overflow-hidden tap-scale">
+                    <img src="ORIGINAL1.jfif" 
+                         alt="Gold Luxe Plaque" 
+                         class="w-full h-auto rounded-t-2xl cursor-pointer"
+                         onclick="openImageModal(this.src)"
+                         loading="lazy">
+                    <div class="p-3">
+                        <p class="text-[11px] text-muted text-center">Gold Luxe Plaque</p>
+                    </div>
+                </div>
+                
+                <div class="masonry-item neu-card rounded-2xl overflow-hidden tap-scale">
+                    <img src="ORIGINAL3.jfif" 
+                         alt="Midnight Blue Remembrance" 
+                         class="w-full h-auto rounded-t-2xl cursor-pointer"
+                         onclick="openImageModal(this.src)"
+                         loading="lazy">
+                    <div class="p-3">
+                        <p class="text-[11px] text-muted text-center">Midnight Blue Remembrance</p>
+                    </div>
+                </div>
+                
+                <div class="masonry-item neu-card rounded-2xl overflow-hidden tap-scale">
+                    <img src="ORIGINAL4.jfif" 
+                         alt="Ivory Floral Memorial" 
+                         class="w-full h-auto rounded-t-2xl cursor-pointer"
+                         onclick="openImageModal(this.src)"
+                         loading="lazy">
+                    <div class="p-3">
+                        <p class="text-[11px] text-muted text-center">Ivory Floral Memorial</p>
+                    </div>
+                </div>
+                
+                <div class="masonry-item neu-card rounded-2xl overflow-hidden tap-scale">
+                    <img src="ORIGINAL5.jfif" 
+                         alt="QR Plaque Collection" 
+                         class="w-full h-auto rounded-t-2xl cursor-pointer"
+                         onclick="openImageModal(this.src)"
+                         loading="lazy">
+                    <div class="p-3">
+                        <p class="text-[11px] text-muted text-center">Ruby Legacy Plaque</p>
+                    </div>
+                </div>
+                
+                <div class="masonry-item neu-card rounded-2xl overflow-hidden tap-scale">
+                    <img src="original6.jfif" 
+                         alt="Emerald Grace Plaque" 
+                         class="w-full h-auto rounded-t-2xl cursor-pointer"
+                         onclick="openImageModal(this.src)"
+                         loading="lazy">
+                    <div class="p-3">
+                        <p class="text-[11px] text-muted text-center">Emerald Grace Plaque</p>
+                    </div>
+                </div>
+                <div class="masonry-item neu-card rounded-2xl overflow-hidden tap-scale">
+                    <img src="ORIGINAL7.jfif" 
+                         alt="Royal Purple Tribute" 
+                         class="w-full h-auto rounded-t-2xl cursor-pointer"
+                         onclick="openImageModal(this.src)"
+                         loading="lazy">
+                    <div class="p-3">
+                        <p class="text-[11px] text-muted text-center">Royal Purple Tribute</p>
+                    </div>
+                </div>
+                
+                <div class="masonry-item neu-card rounded-2xl overflow-hidden tap-scale">
+                    <img src="ORIGINAL8.jfif" 
+                         alt="Champagne Bloom Tribute" 
+                         class="w-full h-auto rounded-t-2xl cursor-pointer"
+                         onclick="openImageModal(this.src)"
+                         loading="lazy">
+                    <div class="p-3">
+                        <p class="text-[11px] text-muted text-center">Champagne Bloom Tribute</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="flex items-center justify-center gap-3 px-5 py-6 fade-in-section">
+            <div class="flex-1 divider-line"></div>
+            <div class="w-4 h-4 rounded-lg glossy-btn flex items-center justify-center shadow-soft">
+                <svg width="10" height="10" viewBox="0 0 100 100" fill="#fff">
+                    <polygon points="50,5 93,27 93,73 50,95 7,73 7,27"/>
+                </svg>
+            </div>
+            <div class="flex-1 divider-line"></div>
+        </div>
+
+        <!-- Video Showcase Section -->
+        <section id="videos" class="section-pad fade-in-section">
+            <div class="text-center mb-5">
+                <span class="text-[10px] font-semibold tracking-[0.2em] uppercase text-gold">Showcase</span>
+                <h2 class="font-serif text-xl font-semibold text-dark mt-1.5">Crafting Process</h2>
+                <p class="text-[11px] text-muted mt-2">Tap any video to watch the full process</p>
+            </div>
+            
+            <div class="space-y-4 max-w-lg mx-auto">
+                <div class="video-card neu-card rounded-2xl overflow-hidden tap-scale" style="aspect-ratio: 9/12;" onclick="openVideoModal('samplecraft.mp4')">
+                    <img src="samplecraft.png" 
+                         alt="Crafting Process" 
+                         class="w-full h-full object-cover rounded-2xl"
+                         loading="lazy">
+                    <div class="absolute inset-0 flex items-center justify-center bg-dark/25 rounded-2xl">
+                        <div class="w-14 h-14 rounded-full glossy-btn shadow-glossy flex items-center justify-center">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff">
+                                <polygon points="8,5 19,12 8,19"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-dark/50 to-transparent rounded-b-2xl">
+                        <p class="text-cream text-xs font-medium">Artisan Craftsmanship</p>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="flex items-center justify-center gap-3 px-5 py-6 fade-in-section">
+            <div class="flex-1 divider-line"></div>
+            <div class="w-4 h-4 rounded-lg glossy-btn flex items-center justify-center shadow-soft">
+                <svg width="10" height="10" viewBox="0 0 100 100" fill="#fff">
+                    <polygon points="50,5 93,27 93,73 50,95 7,73 7,27"/>
+                </svg>
+            </div>
+            <div class="flex-1 divider-line"></div>
+        </div>
+
+        <!-- Sample Websites Video Section -->
+        <section id="samples" class="section-pad fade-in-section">
+            <div class="text-center mb-5">
+                <span class="text-[10px] font-semibold tracking-[0.2em] uppercase text-gold">Samples</span>
+                <h2 class="font-serif text-xl font-semibold text-dark mt-1.5">Website Design Previews</h2>
+                <p class="text-[11px] text-muted mt-1.5">Tap to view full demo • Videos autoplay on load</p>
+            </div>
+            
+            <div class="space-y-4 max-w-lg mx-auto">
+                <!-- Sample 1: Classic Memorial Site -->
+                <div class="neu-card rounded-2xl overflow-hidden tap-scale shadow-raised">
+                    <div class="relative bg-dark/5 aspect-[9/16] rounded-t-2xl overflow-hidden">
+                        <video 
+                            class="w-full h-full object-cover"
+                            autoplay 
+                            muted 
+                            loop 
+                            playsinline 
+                            preload="metadata"
+                            poster="ORIGINAL4.jfif"
+                            onclick="openVideoModal('blacktheme.mp4')"
+                        >
+                            <source src="blacktheme.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/40 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 rounded-lg glossy-btn flex items-center justify-center shadow-glossy">
+                                    <svg width="10" height="10" viewBox="0 0 100 100" fill="#fff">
+                                        <polygon points="50,5 93,27 93,73 50,95 7,73 7,27"/>
+                                    </svg>
+                                </div>
+                                <span class="text-cream text-xs font-medium">Classic Memorial</span>
+                            </div>
+                        </div>
+                        <div class="absolute top-3 right-3">
+                            <div class="w-8 h-8 rounded-full bg-dark/50 backdrop-blur-sm border border-gold/20 flex items-center justify-center">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4A882">
+                                    <polygon points="8,5 19,12 8,19"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3 border-t border-stone/30">
+                        <p class="text-[11px] text-muted text-center">Elegant serif layout with QR integration</p>
+                    </div>
+                </div>
+
+                <!-- Sample 2: Modern Gallery Site -->
+                <div class="neu-card rounded-2xl overflow-hidden tap-scale shadow-raised">
+                    <div class="relative bg-dark/5 aspect-[9/16] rounded-t-2xl overflow-hidden">
+                        <video 
+                            class="w-full h-full object-cover"
+                            autoplay 
+                            muted 
+                            loop 
+                            playsinline 
+                            preload="metadata"
+                            poster="ORIGINAL4.jfif"
+                            onclick="openVideoModal('whitetheme.mp4')"
+                        >
+                            <source src="whitetheme.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/40 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 rounded-lg glossy-btn flex items-center justify-center shadow-glossy">
+                                    <svg width="10" height="10" viewBox="0 0 100 100" fill="#fff">
+                                        <polygon points="50,5 93,27 93,73 50,95 7,73 7,27"/>
+                                    </svg>
+                                </div>
+                                <span class="text-cream text-xs font-medium">Modern Gallery</span>
+                            </div>
+                        </div>
+                        <div class="absolute top-3 right-3">
+                            <div class="w-8 h-8 rounded-full bg-dark/50 backdrop-blur-sm border border-gold/20 flex items-center justify-center">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4A882">
+                                    <polygon points="8,5 19,12 8,19"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3 border-t border-stone/30">
+                        <p class="text-[11px] text-muted text-center">Masonry grid with smooth animations</p>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+
+        <!-- Divider -->
+        <div class="flex items-center justify-center gap-3 px-5 py-6 fade-in-section">
+            <div class="flex-1 divider-line"></div>
+            <div class="w-4 h-4 rounded-lg glossy-btn flex items-center justify-center shadow-soft">
+                <svg width="10" height="10" viewBox="0 0 100 100" fill="#fff">
+                    <polygon points="50,5 93,27 93,73 50,95 7,73 7,27"/>
+                </svg>
+            </div>
+            <div class="flex-1 divider-line"></div>
+        </div>
+
+        <!-- About / Trust Section -->
+        <section id="about" class="section-pad fade-in-section">
+            <div class="text-center mb-6">
+                <span class="text-[10px] font-semibold tracking-[0.2em] uppercase text-gold">Why Choose Us</span>
+                <h2 class="font-serif text-xl font-semibold text-dark mt-1.5">Trusted Craftsmanship</h2>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-3 max-w-lg mx-auto">
+                <div class="neu-card rounded-2xl p-4 tap-scale text-center">
+                    <div class="w-10 h-10 rounded-xl bg-gold/15 flex items-center justify-center mx-auto mb-2.5 border border-gold/20">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4A882" stroke-width="1.5">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                        </svg>
+                    </div>
+                    <p class="text-[10px] font-semibold text-dark">Premium</p>
+                    <p class="text-[9px] text-muted mt-0.5">Quality</p>
+                </div>
+                <div class="neu-card rounded-2xl p-4 tap-scale text-center">
+                    <div class="w-10 h-10 rounded-xl bg-gold/15 flex items-center justify-center mx-auto mb-2.5 border border-gold/20">
+                        <svg width="18" height="18" viewBox="0 0 100 100" fill="#C4A882">
+                            <polygon points="50,5 93,27 93,73 50,95 7,73 7,27"/>
+                        </svg>
+                    </div>
+                    <p class="text-[10px] font-semibold text-dark">Modern</p>
+                    <p class="text-[9px] text-muted mt-0.5">Design</p>
+                </div>
+                <div class="neu-card rounded-2xl p-4 tap-scale text-center">
+                    <div class="w-10 h-10 rounded-xl bg-gold/15 flex items-center justify-center mx-auto mb-2.5 border border-gold/20">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4A882" stroke-width="1.5">
+                            <rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><circle cx="18" cy="18" r="4"/>
+                        </svg>
+                    </div>
+                    <p class="text-[10px] font-semibold text-dark">QR</p>
+                    <p class="text-[9px] text-muted mt-0.5">Enabled</p>
+                </div>
+            </div>
+            
+            <div class="mt-5 neu-card rounded-2xl p-5 shadow-raised max-w-lg mx-auto tap-scale">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-full glossy-btn flex items-center justify-center shadow-glossy">
+                        <svg width="16" height="16" viewBox="0 0 100 100" fill="#fff">
+                            <polygon points="50,5 93,27 93,73 50,95 7,73 7,27"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-dark">MEMORYA QR</p>
+                        <p class="text-[10px] text-muted">Craft by - Afable Chalil</p>
+                    </div>
+                </div>
+                <p class="text-xs text-muted leading-relaxed italic">
+                    "Each plaque is handcrafted with the utmost respect and care. We believe every memorial deserves a modern, elegant design that honors the memory of your loved ones."
+                </p>
+                <div class="flex items-center justify-center gap-1 mt-3">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#C4A882"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#C4A882"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#C4A882"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#C4A882"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#C4A882"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                </div>
+            </div>
+        </section>
+
+        <div class="h-32"></div>
+    </main>
+
+    <!-- Sticky CTA Button -->
+    <div class="fixed bottom-5 left-0 right-0 z-40 px-4 pointer-events-none safe-bottom">
+        <div class="max-w-md mx-auto pointer-events-auto">
+            <a href="https://www.facebook.com/afablechalil" target="_blank" rel="noopener" 
+               class="glossy-btn block w-full py-3.5 px-6 rounded-2xl text-center text-sm font-semibold text-white shadow-glossy tap-scale transition-all duration-200">
+                Pagawa Po
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // ===== NAVBAR SCROLL EFFECT - Blends seamlessly =====
+        const navbar = document.getElementById('navbar');
+        const navBarInner = document.getElementById('navBarInner');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 30) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // ===== MENU TOGGLE =====
+        const menuToggle = document.getElementById('menuToggle');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuIcon = document.getElementById('menuIcon');
+        let isMenuOpen = false;
+
+        const hamburgerIconSrc = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23C4A882" stroke-width="2" stroke-linecap="round"%3E%3Cline x1="3" y1="6" x2="21" y2="6"/%3E%3Cline x1="3" y1="12" x2="21" y2="12"/%3E%3Cline x1="3" y1="18" x2="21" y2="18"/%3E%3C/svg%3E';
+        const closeIconSrc = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23C4A882" stroke-width="2" stroke-linecap="round"%3E%3Cline x1="18" y1="6" x2="6" y2="18"/%3E%3Cline x1="6" y1="6" x2="18" y2="18"/%3E%3C/svg%3E';
+
+        menuToggle.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                menuOverlay.classList.add('is-open');
+                document.body.style.overflow = 'hidden';
+                menuIcon.src = closeIconSrc;
+            } else {
+                closeMenu();
+            }
+        });
+
+        function closeMenu() {
+            isMenuOpen = false;
+            menuOverlay.classList.remove('is-open');
+            document.body.style.overflow = '';
+            menuIcon.src = hamburgerIconSrc;
+        }
+
+        // ===== FADE-IN ON SCROLL =====
+        const fadeElements = document.querySelectorAll('.fade-in-section');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '0px 0px -60px 0px', threshold: 0.1 });
+        fadeElements.forEach(el => fadeObserver.observe(el));
+
+        // ===== HERO IMAGE AUTO-SLIDER =====
+        const heroSlides = document.querySelectorAll('.hero-slide');
+        let currentSlide = 0;
+        
+        function showSlide(index) {
+            heroSlides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % heroSlides.length;
+            showSlide(currentSlide);
+        }
+        
+        setInterval(nextSlide, 3000);
+
+        // ===== IMAGE MODAL =====
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        
+        function openImageModal(src) {
+            modalImage.src = src;
+            imageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeImageModal() {
+            imageModal.classList.remove('active');
+            document.body.style.overflow = '';
+            modalImage.src = '';
+        }
+
+        // ===== VIDEO MODAL =====
+        const videoModal = document.getElementById('videoModal');
+        const modalVideo = document.getElementById('modalVideo');
+        
+        function openVideoModal(src) {
+            modalVideo.querySelector('source').src = src;
+            modalVideo.load();
+            videoModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => modalVideo.play().catch(e => console.log('Autoplay prevented:', e)), 300);
+        }
+        
+        function closeVideoModal() {
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+            videoModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ===== CLOSE MODALS ON BACKDROP CLICK =====
+        function closeModal(event) {
+            if (event.target === event.currentTarget) {
+                closeImageModal();
+                closeVideoModal();
+            }
+        }
+
+        // ===== PREVENT DOUBLE-TAP ZOOM =====
+        document.addEventListener('dblclick', (e) => e.preventDefault(), { passive: false });
+
+        // ===== KEYBOARD SUPPORT =====
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeImageModal();
+                closeVideoModal();
+                closeMenu();
+            }
+        });
+
+        // ===== LAZY LOAD VIDEOS IN SAMPLES SECTION (Performance Optimization) =====
+        const sampleVideos = document.querySelectorAll('#samples video');
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.play().catch(() => {});
+                    videoObserver.unobserve(entry.target);
+                } else {
+                    entry.target.pause();
+                    entry.target.currentTime = 0;
+                }
+            });
+        }, { threshold: 0.5 });
+
+        sampleVideos.forEach(video => {
+            video.pause(); // Start paused for performance
+            videoObserver.observe(video);
+        });
+    </script>
+</body>
+</html>

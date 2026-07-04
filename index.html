@@ -1,0 +1,2399 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="Afable Chalil | Front-End Developer">
+    <meta property="og:description" content="Front-End Developer & Creative Technologist">
+    <meta property="og:image" content="https://afablechali.netlify.app/public/lil.png">
+    <meta property="og:url" content="https://afablechali.netlify.app">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://afablechali.netlify.app/public/lil.png">
+
+    <title>Afable Chalil | Front-End Developer & Creative Technologist</title>
+    <link rel="icon" href="img/lil.ico" type="image/x-icon">
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #7e57c2;
+        --secondary-color: #29b6f6;
+        --accent-color: #ff5252;
+        --accent-glow: rgba(126, 87, 194, 0.6);
+        --text-color: #ffffff;
+        --text-secondary: #b0b0c5;
+        --bg-color: #0f0f1b;
+        --card-bg: rgba(255, 255, 255, 0.07);
+        --card-border: rgba(255, 255, 255, 0.12);
+        --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+        --nav-bg: rgba(20, 20, 40, 0.85);
+        --success-color: #00e676;
+        --warning-color: #ffab00;
+        --error-color: #ff1744;
+        --glass-blur: blur(12px);
+        --glass-border-radius: 16px;
+        --glass-padding: 2rem;
+        --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        --section-padding: 6rem 10%;
+        --card-gap: 2rem;
+        --mobile-breakpoint: 768px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      a {
+        text-decoration: none;
+        color: var(--text-color);
+        transition: var(--transition);
+      }
+      a:hover {
+        color: var(--secondary-color);
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        background: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        overflow-x: hidden;
+        background-image:
+          radial-gradient(
+            circle at 10% 20%,
+            rgba(108, 99, 255, 0.1) 0%,
+            transparent 25%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(41, 182, 246, 0.1) 0%,
+            transparent 25%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(255, 82, 82, 0.08) 0%,
+            transparent 35%
+          );
+        background-attachment: fixed;
+      }
+      #loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bg-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition:
+          opacity 0.6s ease,
+          visibility 0.6s ease;
+      }
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid rgba(255, 255, 255, 0.15);
+        border-top: 4px solid var(--secondary-color);
+        border-radius: 50%;
+        animation: spin 0.5s linear infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary-color);
+        border-radius: 10px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+      }
+      ::-webkit-scrollbar-thumb:hover { background: var(--secondary-color); }
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 1.5rem 10%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        background: var(--nav-bg);
+        backdrop-filter: var(--glass-blur);
+        border-bottom: 1px solid var(--card-border);
+        transition: var(--transition);
+      }
+      nav.scrolled {
+        padding: 1rem 10%;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      }
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: -0.5px;
+      }
+      .logo span { color: var(--text-color); }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2.5rem;
+      }
+      .nav-links a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1.05rem;
+        position: relative;
+        padding: 0.5rem 0;
+        transition: var(--transition);
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--secondary-color);
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--secondary-color);
+        transition: var(--transition);
+      }
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 100%;
+      }
+      .hamburger {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        position: relative;
+        z-index: 2000;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 3px;
+        background: var(--text-color);
+        border-radius: 2px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: var(--transition);
+      }
+      .hamburger span:nth-child(1) { top: 10px; }
+      .hamburger span:nth-child(2) { top: 19px; }
+      .hamburger span:nth-child(3) { top: 28px; }
+      .hamburger.active span:nth-child(1) {
+        transform: translate(-50%, -50%) rotate(45deg);
+        top: 19px;
+      }
+      .hamburger.active span:nth-child(2) { opacity: 0; }
+      .hamburger.active span:nth-child(3) {
+        transform: translate(-50%, -50%) rotate(-45deg);
+        top: 19px;
+      }
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 10%;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-content {
+        max-width: 800px;
+        text-align: center;
+        z-index: 10;
+        animation: fadeInUp 1s ease-out;
+      }
+      .hero h1 {
+        font-size: 4.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(45deg, var(--text-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        line-height: 1.1;
+        animation: titleGlow 3s ease-in-out infinite alternate;
+      }
+      .tesda-badge {
+        display: block;
+        margin: 0 0 1rem auto;
+        margin-left: auto;
+        margin-right: auto;
+        width: 140px;
+        height: auto;
+      }
+      .badge-caption {
+        text-align: center;
+        color: var(--text-secondary);
+        font-weight: 600;
+        margin-bottom: 0.6rem;
+        font-size: 0.95rem;
+      }
+      .tesda-qr {
+        display: block;
+        margin: 1.2rem auto 0;
+        width: 160px;
+        max-width: 90%;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        transition: transform 0.28s ease, box-shadow 0.28s ease;
+        background: rgba(255,255,255,0.02);
+      }
+      .tesda-qr:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+      }
+      .hero p {
+        font-size: 1.5rem;
+        color: var(--text-secondary);
+        margin-bottom: 2.5rem;
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+        text-decoration: none;
+      }
+      .btn {
+        padding: 0.9rem 2.2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.05rem;
+        cursor: pointer;
+        transition: var(--transition);
+        border: none;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--primary-color);
+        z-index: -1;
+        transition: var(--transition);
+        opacity: 0.9;
+      }
+      .btn-primary::before {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      }
+      .btn-secondary::before {
+        background: rgba(255, 255, 255, 0.15);
+        opacity: 1;
+      }
+      .btn:hover::before {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+      .btn span {
+        position: relative;
+        z-index: 2;
+      }
+      .btn-primary span { color: white; }
+      .btn-secondary span { color: var(--text-color); }
+      .btn-secondary:hover span { color: white; }
+      .btn i { font-size: 1.2rem; }
+      .shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(40px);
+        z-index: -1;
+        opacity: 0.6;
+        animation: float 15s infinite ease-in-out;
+      }
+      .shape-1 {
+        width: 300px;
+        height: 300px;
+        background: rgba(108, 99, 255, 0.3);
+        top: -150px;
+        left: -100px;
+        animation-delay: 0s;
+      }
+      .shape-2 {
+        width: 250px;
+        height: 250px;
+        background: rgba(41, 182, 246, 0.3);
+        bottom: -100px;
+        right: -50px;
+        animation-delay: -5s;
+      }
+      .shape-3 {
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 82, 82, 0.25);
+        bottom: 10%;
+        left: 15%;
+        animation-delay: -10s;
+      }
+      @keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(20px, 20px) scale(1.05); }
+        50% { transform: translate(0, 40px) scale(1); }
+        75% { transform: translate(-20px, 20px) scale(0.95); }
+      }
+      section { padding: var(--section-padding); }
+      .section-title {
+        text-align: center;
+        margin-bottom: 4rem;
+        position: relative;
+      }
+      .section-title h2 {
+        font-size: 2.8rem;
+        display: inline-block;
+        position: relative;
+        padding-bottom: 15px;
+      }
+      .section-title h2::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70px;
+        height: 4px;
+        background: var(--secondary-color);
+        border-radius: 2px;
+      }
+      .section-title p {
+        color: var(--text-secondary);
+        margin-top: 1rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .glass-card {
+        background: var(--card-bg);
+        backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--card-border);
+        border-radius: var(--glass-border-radius);
+        box-shadow: var(--card-shadow);
+        padding: var(--glass-padding);
+        transition: var(--transition);
+      }
+      .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.55);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .profile-img {
+        width: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        position: relative;
+        border: 2px solid transparent;
+        background:
+          linear-gradient(var(--bg-color), var(--bg-color)) padding-box,
+          linear-gradient(45deg, var(--primary-color), var(--secondary-color))
+            border-box;
+      }
+      .profile-img img {
+        width: 100%;
+        display: block;
+        transition: var(--transition);
+        object-fit: cover;
+      }
+      .profile-img:hover img { transform: scale(1.05); }
+      .about-text h3 {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+      }
+      .about-text h3::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--secondary-color);
+        border-radius: 2px;
+      }
+      .about-text p {
+        margin: 1.5rem 0;
+        color: var(--text-secondary);
+        line-height: 1.7;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .stat-item { text-align: center; }
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      .stat-text {
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+      .skills-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--card-gap);
+      }
+      .skill-category { margin-bottom: 2.5rem; }
+      .skill-category h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--card-border);
+        display: inline-block;
+      }
+      .skill-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.2rem;
+        padding: 0.8rem;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        transition: var(--transition);
+      }
+      .skill-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+      .skill-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.2rem;
+      }
+      .skill-info h4 {
+        font-size: 1.15rem;
+        margin-bottom: 0.2rem;
+      }
+      .skill-info p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2.5rem;
+      }
+      .project-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--glass-border-radius);
+      }
+      .project-img {
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+        position: relative;
+        border-radius: var(--glass-border-radius) var(--glass-border-radius) 0 0;
+      }
+      .project-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+        display: block;
+      }
+      .project-card:hover .project-img img {
+        opacity: 0.65;
+        transform: scale(1.08);
+      }
+      .project-content { padding: 1.8rem; }
+      .project-content h3 {
+        font-size: 1.4rem;
+        margin-bottom: 0.8rem;
+      }
+      .project-content h3 a {
+        color: var(--text-color);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+      .project-content h3 a:hover { color: var(--secondary-color); }
+      .project-content p {
+        color: var(--text-secondary);
+        margin: 1rem 0;
+        line-height: 1.6;
+        font-size: 0.95rem;
+      }
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin: 1.2rem 0;
+      }
+      .tech-tag {
+        padding: 0.3rem 0.8rem;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+      .project-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.2rem;
+      }
+      .project-links .btn {
+        padding: 0.65rem 1.5rem;
+        font-size: 0.95rem;
+      }
+      .project-links .btn i { font-size: 1rem; }
+      .timeline {
+        position: relative;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .timeline::after {
+        content: "";
+        position: absolute;
+        width: 4px;
+        background: var(--card-border);
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -2px;
+        border-radius: 10px;
+      }
+      .timeline-item {
+        padding: 25px 40px;
+        position: relative;
+        width: 50%;
+        box-sizing: border-box;
+      }
+      .timeline-item::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: var(--primary-color);
+        border: 3px solid var(--secondary-color);
+        top: 30px;
+        border-radius: 50%;
+        z-index: 1;
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+      }
+      .timeline-item:nth-child(odd) { left: 0; }
+      .timeline-item:nth-child(even) { left: 50%; }
+      .timeline-item:nth-child(odd)::after { right: -10px; }
+      .timeline-item:nth-child(even)::after { left: -10px; }
+      .timeline-content {
+        padding: 25px;
+        position: relative;
+        border-radius: var(--glass-border-radius);
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+      }
+      .timeline-content:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      .timeline-content h3 {
+        font-size: 1.7rem;
+        margin-bottom: 0.5rem;
+        color: var(--secondary-color);
+      }
+      .timeline-content .date {
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        display: block;
+      }
+      .timeline-content p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+      .certificates-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2.5rem;
+      }
+      .certificate-card {
+        text-align: center;
+        transition: var(--transition);
+        cursor: pointer;
+      }
+      .certificate-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      }
+      .certificate-img {
+        width: 100%;
+        height: 200px;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--card-border);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+      }
+      .certificate-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: var(--transition);
+      }
+      .certificate-card:hover .certificate-img img { transform: scale(1.05); }
+      .certificate-card h3 {
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem;
+      }
+      .certificate-card p {
+        color: var(--text-secondary);
+        margin: 0.5rem 0;
+      }
+      .certificate-card .issuer {
+        color: var(--secondary-color);
+        font-weight: 600;
+      }
+      .certificate-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 99998;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s;
+      }
+      .certificate-modal.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal-content {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--glass-border-radius);
+        box-shadow: var(--card-shadow);
+        max-width: 800px;
+        width: 90%;
+        margin: 2rem auto;
+        padding: 2rem;
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: translateY(20px);
+        opacity: 0;
+        transition: transform 0.4s ease, opacity 0.4s ease;
+      }
+      .certificate-modal.show .modal-content {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 2.5rem;
+        cursor: pointer;
+        color: var(--text-color);
+        transition: var(--transition);
+        z-index: 10;
+        background: none;
+        border: none;
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
+      .close-modal:hover {
+        color: var(--secondary-color);
+        transform: rotate(90deg);
+        background: rgba(255, 255, 255, 0.1);
+      }
+      #modalCertificateImg {
+        width: 100%;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        display: block;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        max-height: 50vh;
+        object-fit: contain;
+      }
+      .modal-details h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
+      .modal-details p {
+        margin-bottom: 0.8rem;
+        color: var(--text-secondary);
+      }
+      .modal-details p strong { color: var(--text-color); }
+      .contact-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+      }
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+      .contact-item {
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-start;
+      }
+      .contact-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1.4rem;
+      }
+      .contact-text h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .contact-text p,
+      .contact-text a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+      .contact-text a:hover { color: var(--secondary-color); }
+      .contact-form .form-group { margin-bottom: 1.5rem; }
+      .contact-form .form-group label {
+        display: block;
+        margin-bottom: 0.7rem;
+        font-weight: 500;
+      }
+      .contact-form .form-control {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        color: var(--text-color);
+        font-family: "Poppins", sans-serif;
+        font-size: 1rem;
+        transition: var(--transition);
+      }
+      .contact-form .form-control:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 3px rgba(41, 182, 246, 0.2);
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .contact-form textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+      }
+      .contact-form .btn {
+        width: 100%;
+        padding: 1.1rem;
+        font-size: 1.1rem;
+        margin-top: 0.5rem;
+      }
+      footer {
+        background: rgba(15, 15, 27, 0.92);
+        padding: 4rem 10% 2rem;
+        border-top: 1px solid var(--card-border);
+        position: relative;
+      }
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 3rem;
+      }
+      .footer-section {
+        flex: 1;
+        min-width: 250px;
+      }
+      .footer-section h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        position: relative;
+        padding-bottom: 12px;
+      }
+      .footer-section h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: var(--secondary-color);
+        border-radius: 2px;
+      }
+      .footer-links {
+        list-style: none;
+        margin-top: 1.5rem;
+      }
+      .footer-links li { margin-bottom: 0.9rem; }
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: var(--transition);
+        display: inline-block;
+        position: relative;
+        padding-left: 18px;
+      }
+      .footer-links a::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        opacity: 0;
+        transition: var(--transition);
+      }
+      .footer-links a:hover {
+        color: var(--secondary-color);
+        padding-left: 25px;
+      }
+      .footer-links a:hover::before { opacity: 1; }
+      .social-links {
+        display: flex;
+        gap: 1.2rem;
+        margin-top: 1.8rem;
+      }
+      .social-links a {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.07);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+      .social-links a svg {
+        width: 20px;
+        height: 20px;
+        display: block;
+        fill: currentColor;
+      }
+      .social-links a:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(126, 87, 194, 0.35);
+        color: #fff;
+      }
+      .social-links a.github:hover { background: #111; color: #fff; }
+      .social-links a.linkedin:hover { background: #0a66c2; color: #fff; }
+      .social-links a.facebook:hover { background: #1877f2; color: #fff; }
+      .social-links a.email:hover { background: linear-gradient(45deg,#ea4335,#ea4335); color: #fff; }
+      .copyright {
+        text-align: center;
+        padding-top: 2.5rem;
+        margin-top: 2.5rem;
+        border-top: 1px solid var(--card-border);
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+      .scroll-to-top {
+        position: fixed;
+        bottom: 2.5rem;
+        right: 2.5rem;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition: var(--transition);
+        box-shadow: var(--card-shadow);
+      }
+      .scroll-to-top.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .scroll-to-top:hover {
+        background: var(--primary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 20px rgba(126, 87, 194, 0.4);
+      }
+      .scroll-to-top i {
+        font-size: 1.5rem;
+        color: white;
+      }
+      #formOverlay {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(5, 6, 10, 0.6);
+        z-index: 99999;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.25s ease, visibility 0.25s;
+        flex-direction: column;
+        gap: 18px;
+        pointer-events: none;
+      }
+      #formOverlay.show {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .overlay-card {
+        background: rgba(18, 18, 28, 0.9);
+        padding: 28px 36px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        transform: translateY(6px);
+      }
+      .overlay-spinner {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        border: 5px solid rgba(255, 255, 255, 0.08);
+        border-top-color: var(--secondary-color);
+        animation: overlay-spin 0.9s linear infinite;
+      }
+      @keyframes overlay-spin { to { transform: rotate(360deg); } }
+      .overlay-success {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: scale(0.85);
+        opacity: 0;
+        transition: transform 0.35s ease, opacity 0.35s ease;
+      }
+      .overlay-success.show {
+        transform: scale(1);
+        opacity: 1;
+      }
+      .overlay-success svg {
+        width: 40px;
+        height: 40px;
+        color: white;
+        fill: none;
+        stroke: #fff;
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .overlay-text {
+        color: var(--text-color);
+        font-weight: 600;
+        font-size: 1.05rem;
+      }
+      .overlay-sub {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-top: 6px;
+        text-align: center;
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes floatPulse {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50% { transform: translateY(-10px) scale(1.02); }
+      }
+      .animate-float {
+        animation: floatPulse 6s ease-in-out infinite;
+      }
+      @media (max-width: 992px) {
+        :root { --section-padding: 5rem 8%; }
+        .hero h1 { font-size: 4rem; }
+        .hero p { font-size: 1.35rem; }
+        .about-content, .contact-container {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        .profile-img { max-width: 450px; margin: 0 auto; }
+        .timeline::after { left: 31px; }
+        .timeline-item {
+          width: 100%;
+          padding-left: 70px;
+          padding-right: 25px;
+        }
+        .timeline-item:nth-child(even) { left: 0; }
+        .timeline-item::after { left: 21px; right: auto; }
+        .timeline-item:nth-child(even)::after { left: 21px; }
+        .footer-content { flex-direction: column; }
+      }
+      @media (max-width: 768px) {
+        :root {
+          --section-padding: 4rem 5%;
+          --glass-padding: 1.8rem;
+        }
+        .hamburger { display: block; }
+        .nav-links {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          width: 80%;
+          height: 100vh;
+          background: rgba(25, 25, 45, 0.95);
+          backdrop-filter: var(--glass-blur);
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 2.5rem;
+          transition: var(--transition);
+          box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+          border-left: 1px solid var(--card-border);
+          z-index: 1500;
+        }
+        .nav-links.active { right: 0; }
+        nav.scrolled .nav-links { background: rgba(25, 25, 45, 0.98); }
+        .hero h1 { font-size: 3.3rem; }
+        .hero p { font-size: 1.2rem; }
+        .hero-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+        .btn {
+          width: 100%;
+          max-width: 300px;
+          justify-content: center;
+        }
+        .section-title h2 { font-size: 2.4rem; }
+        .projects-grid, .certificates-grid { grid-template-columns: 1fr; }
+        .stats { grid-template-columns: repeat(2, 1fr); }
+        .scroll-to-top { bottom: 1.8rem; right: 1.8rem; }
+        .modal-content { width: 95%; padding: 1.5rem; }
+        .close-modal { top: 10px; right: 15px; font-size: 2rem; }
+      }
+      @media (max-width: 480px) {
+        :root {
+          --section-padding: 3.5rem 4%;
+          --glass-padding: 1.5rem;
+        }
+        nav { padding: 1rem 5%; }
+        nav.scrolled { padding: 0.8rem 5%; }
+        .hero { padding: 0 5%; }
+        .hero h1 { font-size: 2.8rem; }
+        .hero p { font-size: 1.1rem; }
+        .section-title h2 { font-size: 2.1rem; }
+        .section-title p { font-size: 0.95rem; }
+        .timeline-item {
+          padding-left: 60px;
+          padding-right: 15px;
+        }
+        .timeline-item::after { left: 16px; }
+        .contact-form .btn { padding: 1rem; }
+        footer { padding: 3rem 5% 1.5rem; }
+      }
+      .form-error {
+        color: var(--error-color);
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        display: none;
+      }
+      .form-group.error .form-control {
+        border-color: var(--error-color);
+        background: rgba(255, 23, 68, 0.05);
+      }
+      .form-group.error .form-error {
+        display: block;
+        animation: fadeInUp 0.3s ease-out;
+      }
+      .form-group.success .form-control {
+        border-color: var(--success-color);
+        background: rgba(0, 230, 118, 0.05);
+      }
+      .text-center { text-align: center; }
+      .mb-4 { margin-bottom: 2rem; }
+      .hidden { display: none; }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loader">
+      <div class="spinner"></div>
+    </div>
+    <nav id="navbar">
+      <div class="logo">Afable<span>Chalil</span></div>
+      <ul class="nav-links">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#certificates">Certificates</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+    <section id="home" class="hero">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="hero-content">
+        <img src="img/tesda.png" alt="TESDA Certified Worker" class="tesda-badge" />
+        <div class="badge-caption">TESDA Certified Worker</div>
+        <h1>Afable Chalil</h1>
+        <p>
+          Front-end Developer & Creative Technologist crafting exceptional
+          digital experiences with modern web technologies
+        </p>
+        <div class="hero-buttons">
+          <a href="https://www.facebook.com/afablechalil" target="_blank" class="btn btn-primary">
+            <span>Make a Talk</span>
+          </a>
+          <a href="Chalil-CV.pdf" class="btn btn-secondary" download="Chalil-CV.pdf">
+            <span>Download CV</span>
+          </a>
+        </div>
+        <a href="https://passport.tesda.gov.ph/atlas/eyJpdiI6IndycmF6WXgydkNoYmNJbFF3d0ExQVE9PSIsInZhbHVlIjoiaG1pOXZiMDdnaHlhYUFPaThvcEhmeitYM2NoNUxUN0NBR3puZHM5WEtpbz0iLCJtYWMiOiIxZjRhMTE1YjVjMDVkYjcyNjA5YjMyYWI5M2U3MGQ4YjYyZjE5N2I2ZGFmZGQ0NTIxOTI1Njg5ZjBmOGY3MjU5IiwidGFnIjoiIn0=" target="_blank">
+          <img alt="TESDA QR Code" class="tesda-qr" src="img/tesdaqr.jpg" />
+        </a>
+      </div>
+    </section>
+    <section id="about">
+      <div class="section-title">
+        <h2>About Me</h2>
+        <p>
+          Get to know more about my journey, passion, and what drives me as a
+          developer
+        </p>
+      </div>
+      <div class="about-content">
+        <div class="profile-img animate-float">
+          <a href="https://www.facebook.com/afablechalil">
+            <img src="public/lil.png" alt="Chalil Afable - Front-end Developer" />
+          </a>
+        </div>
+        <div class="about-text">
+          <h3>Passionate Developer & Lifelong Learner</h3>
+          <p>
+            Hello! I'm Afable Chalil, an aspiring Front-End and Back-end
+            Developer currently studying at Manila Business College, pursuing a
+            Bachelor of Science in Information Systems (BSIS). I am a consistent
+            First Honor student and academic achiever, driven by curiosity,
+            discipline, and a strong passion for technology and creativity.
+          </p>
+          <p>
+            I hold multiple technical certifications, including NC III in Events
+            Management Services, NC II in Computer Systems Servicing, and a Java
+            Training Certificate (NC III). Alongside my academic background, I
+            have hands-on experience as a DJ sound system operator, in
+            photobooth sidelines, and home service work, which strengthened my
+            technical skills, communication, and customer-focused mindset.
+          </p>
+          <p>
+            Beyond development, I am also a music producer and lyric composer,
+            creating music across various genres such as Hip Hop, Pop, Rock,
+            R&B, Jazz, Classical, Reggae, fiesta, and campaign music. This
+            creative background enhances my attention to detail and
+            problem-solving approach, which I apply in building functional,
+            visually engaging, and user-friendly digital experiences.
+          </p>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-number">5+</span>
+              <span class="stat-text">Years Experience</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">50+</span>
+              <span class="stat-text">Projects Completed</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">25+</span>
+              <span class="stat-text">Technologies Mastered</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="skills">
+      <div class="section-title">
+        <h2>My Skills</h2>
+        <p>Technologies and tools I use to build modern web applications</p>
+      </div>
+      <div class="skills-container">
+        <div class="glass-card">
+          <div class="skill-category">
+            <h3>Frontend</h3>
+            <div class="skill-item">
+              <div class="skill-icon">⚛️</div>
+              <div class="skill-info">
+                <h4>React & Next.js</h4>
+                <p>Building dynamic, high-performance user interfaces</p>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-icon">🔍</div>
+              <div class="skill-info">
+                <h4>Vue.js</h4>
+                <p>Creating reactive and composable UI components</p>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-icon">🎨</div>
+              <div class="skill-info">
+                <h4>Tailwind CSS</h4>
+                <p>Utility-first CSS framework for rapid UI development</p>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-icon">📱</div>
+              <div class="skill-info">
+                <h4>Responsive Design</h4>
+                <p>Creating seamless experiences across all devices</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card">
+          <div class="skill-category">
+            <h3>Backend</h3>
+            <div class="skill-item">
+              <div class="skill-icon">⬢</div>
+              <div class="skill-info">
+                <h4>Node.js & Express</h4>
+                <p>Building robust server-side applications and APIs</p>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-icon">🐍</div>
+              <div class="skill-info">
+                <h4>Python & Django</h4>
+                <p>Developing scalable web applications and services</p>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-icon">🗄️</div>
+              <div class="skill-info">
+                <h4>Database Design</h4>
+                <p>MongoDB, PostgreSQL, MySQL, and Firebase</p>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-icon">🔐</div>
+              <div class="skill-info">
+                <h4>Authentication</h4>
+                <p>JWT, OAuth, and secure session management</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card">
+          <div class="skill-category">
+            <h3>Tools & Practices</h3>
+            <div class="skill-item">
+              <div class="skill-icon"></div>
+              <div class="skill-info">
+                <h4>Git & GitHub</h4>
+                <p>Version control and collaborative development</p>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-icon"></div>
+              <div class="skill-info">
+                <h4>Docker</h4>
+                <p>Containerization and deployment workflows</p>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-icon">☁️</div>
+              <div class="skill-info">
+                <h4>AWS & Firebase</h4>
+                <p>Cloud infrastructure and serverless architecture</p>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-icon">🧪</div>
+              <div class="skill-info">
+                <h4>Testing</h4>
+                <p>Jest, Cypress, and comprehensive test coverage</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="projects">
+      <div class="section-title">
+        <h2>My Projects</h2>
+        <p>
+          A selection of my recent work showcasing technical skills and creative
+          problem-solving
+        </p>
+      </div>
+      <div class="projects-grid">
+        <!-- Project 1: Golden Leaf -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="https://goldenleafeventscateringservice.netlify.app/" target="_blank">
+              <img src="img/goldenleaf.jpg" alt="Golden Leaf Event and Catering Services" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="https://goldenleafeventscateringservice.netlify.app/" target="_blank">Golden Leaf Event and Catering Services</a>
+            </h3>
+            <p>
+              A comprehensive online platform for Catering Golden Leaf,
+              featuring real-time menu updates, event booking management,
+              customer tracking, and performance analytics.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">JQUERY</span>
+            </div>
+            <div class="project-links">
+              <a href="https://goldenleafeventscateringservice.netlify.app/" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 2: UniGo+ -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="https://unigodelivery.netlify.app/" target="_blank">
+              <img src="img/unigo.jpg" alt="UniGo+ Delivery Platform" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="https://unigodelivery.netlify.app/" target="_blank">UniGo+ Delivery Platform</a>
+            </h3>
+            <p>
+              A smart delivery service platform that manages order tracking,
+              rider dispatching, real-time delivery status, and customer
+              notifications for fast and reliable deliveries.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">JQUERY</span>
+            </div>
+            <div class="project-links">
+              <a href="https://unigodelivery.netlify.app/" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 3: Enthusiast Portfolio -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="https://itsgraceportfolio.netlify.app/" target="_blank">
+              <img src="img/portfoliograce.jpg" alt="Enthusiast Portfolio" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="https://itsgraceportfolio.netlify.app/" target="_blank">Building Enthusiast Portfolio</a>
+            </h3>
+            <p>
+              A project-focused portfolio showcasing hands-on work, technical
+              experiments, and real-world solutions, driven by curiosity,
+              continuous learning, and a passion for building practical,
+              scalable, and impactful projects from concept to execution.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">JQUERY</span>
+            </div>
+            <div class="project-links">
+              <a href="https://itsgraceportfolio.netlify.app/" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 4: QR CODE STUDENT INFORMATION SYSTEM -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="#" target="_blank">
+              <img src="https://image.qwenlm.ai/public_source/905bb43e-342e-4993-a66a-ede5ddf1fde5/1f6abf548-a546-4e12-85b8-06f97f969aa2.png" alt="QR Code Student Information System" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="#" target="_blank">QR CODE STUDENT INFORMATION SYSTEM</a>
+            </h3>
+            <p>
+              A comprehensive student management system leveraging QR code
+              technology for attendance tracking, student profiles, academic
+              records, and real-time data monitoring with a modern dashboard.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">QR API</span>
+              <span class="tech-tag">PHP</span>
+              <span class="tech-tag">MySQL</span>
+            </div>
+            <div class="project-links">
+              <a href="#" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 5: MBC CONCERT -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="#" target="_blank">
+              <img src="https://image.qwenlm.ai/public_source/905bb43e-342e-4993-a66a-ede5ddf1fde5/18ae4946b-83d5-4d01-bcce-147277aa0018.png" alt="MBC Concert" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="#" target="_blank">MBC CONCERT</a>
+            </h3>
+            <p>
+              A dynamic concert event management platform featuring lineup
+              management, ticket booking system, stage setup visualization, and
+              real-time event scheduling dashboard for Manila Business College.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">JQUERY</span>
+            </div>
+            <div class="project-links">
+              <a href="#" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 6: ElysianLuxe -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="#" target="_blank">
+              <img src="https://image.qwenlm.ai/public_source/905bb43e-342e-4993-a66a-ede5ddf1fde5/1c3fe267f-29e1-4d0a-959a-3f321fc8d588.png" alt="ElysianLuxe" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="#" target="_blank">ElysianLuxe</a>
+            </h3>
+            <p>
+              An elegant luxury e-commerce platform with sophisticated dark gold
+              theme, featuring premium product catalog, personalized shopping
+              experience, and high-end fashion item showcase with custom services.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">JQUERY</span>
+            </div>
+            <div class="project-links">
+              <a href="#" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 7: MODERN LAPIDA QR -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="#" target="_blank">
+              <img src="https://image.qwenlm.ai/public_source/905bb43e-342e-4993-a66a-ede5ddf1fde5/10644af53-8474-48ca-9314-f62803810a10.png" alt="Modern Lapida QR" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="#" target="_blank">MODERN LAPIDA QR</a>
+            </h3>
+            <p>
+              A modern memorial management system using QR technology for
+              tribute records, photo gallery archives, visitor tracking with
+              heat maps, and family memorial management dashboard.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">QR API</span>
+              <span class="tech-tag">PHP</span>
+              <span class="tech-tag">MySQL</span>
+            </div>
+            <div class="project-links">
+              <a href="#" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 8: SEECS -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="#" target="_blank">
+              <img src="https://image.qwenlm.ai/public_source/905bb43e-342e-4993-a66a-ede5ddf1fde5/14fa9ee49-003a-4a3a-99fa-6617c88c32dd.png" alt="SEECS" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="#" target="_blank">SEECS</a>
+            </h3>
+            <p>
+              A comprehensive school education system featuring student
+              enrollment management, course tracking, grade monitoring with
+              visual charts, and academic calendar with event scheduling.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">Chart.js</span>
+              <span class="tech-tag">PHP</span>
+            </div>
+            <div class="project-links">
+              <a href="#" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 9: PET SHOP SYSTEM - AMA -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="#" target="_blank">
+              <img src="https://image.qwenlm.ai/public_source/905bb43e-342e-4993-a66a-ede5ddf1fde5/104ee2c0f-4461-41e2-b2d0-ef4971124ae4.png" alt="Pet Shop System AMA" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="#" target="_blank">PET SHOP SYSTEM - AMA</a>
+            </h3>
+            <p>
+              A pet shop management system for AMA featuring pet inventory
+              tracking, customer management, grooming appointment scheduling
+              with calendar, and sales analytics dashboard.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">PHP</span>
+              <span class="tech-tag">MySQL</span>
+            </div>
+            <div class="project-links">
+              <a href="#" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 10: SMART CART - MBC -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="#" target="_blank">
+              <img src="https://image.qwenlm.ai/public_source/905bb43e-342e-4993-a66a-ede5ddf1fde5/1d22c70e6-491b-42be-b5c7-0322a54e307e.png" alt="Smart Cart MBC" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="#" target="_blank">SMART CART - MBC</a>
+            </h3>
+            <p>
+              A modern point-of-sale system for Manila Business College with
+              barcode scanning, shopping cart management, multi-payment
+              processing including QR payments, and real-time inventory tracking.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">QR API</span>
+              <span class="tech-tag">PHP</span>
+            </div>
+            <div class="project-links">
+              <a href="#" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 11: SPORTFEST FAMILY FEUD -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="#" target="_blank">
+              <img src="https://image.qwenlm.ai/public_source/905bb43e-342e-4993-a66a-ede5ddf1fde5/1665d03b9-b1d8-46c1-9bee-9389b243db77.png" alt="Sportfest Family Feud" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="#" target="_blank">SPORTFEST FAMILY FEUD</a>
+            </h3>
+            <p>
+              An energetic sports event platform with team leaderboards,
+              dynamic real-time scoreboard, family competition bracket tracking,
+              and event schedule management for family feast competitions.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">JQUERY</span>
+            </div>
+            <div class="project-links">
+              <a href="#" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 12: saf E-ride -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="#" target="_blank">
+              <img src="https://image.qwenlm.ai/public_source/905bb43e-342e-4993-a66a-ede5ddf1fde5/16f4587d5-c0bc-47ca-9aca-45bf515ee25e.png" alt="saf E-ride" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="#" target="_blank">saf E-ride</a>
+            </h3>
+            <p>
+              A safe and reliable ride-hailing service with real-time driver
+              tracking on map, fare calculator, emergency assistance, live
+              health monitoring, and trip recording features for passenger safety.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">Map API</span>
+              <span class="tech-tag">PHP</span>
+            </div>
+            <div class="project-links">
+              <a href="#" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 13: MENTAL HEALTH CHECKER BY CHALIL -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="#" target="_blank">
+              <img src="https://image.qwenlm.ai/public_source/905bb43e-342e-4993-a66a-ede5ddf1fde5/1bf4bbf43-fc82-442d-849e-abd1e6cd184e.png" alt="Mental Health Checker by Chalil" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="#" target="_blank">MENTAL HEALTH CHECKER BY CHALIL</a>
+            </h3>
+            <p>
+              A wellness assessment platform with mood tracking, mental health
+              questionnaires, stress level monitoring with visual analytics,
+              and personalized wellness recommendations for daily mental health.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">Chart.js</span>
+              <span class="tech-tag">PHP</span>
+            </div>
+            <div class="project-links">
+              <a href="#" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Project 14: GLECS V2 -->
+        <div class="glass-card project-card">
+          <div class="project-img">
+            <a href="#" target="_blank">
+              <img src="https://image.qwenlm.ai/public_source/905bb43e-342e-4993-a66a-ede5ddf1fde5/1139586d1-ce2d-4086-9cc9-d001bf307072.png" alt="GLECS V2" />
+            </a>
+          </div>
+          <div class="project-content">
+            <h3>
+              <a href="#" target="_blank">GLECS V2</a>
+            </h3>
+            <p>
+              Version 2 of the government local e-commerce system with vendor
+              management, transaction records with analytics, service request
+              tracking, and comprehensive data visualization dashboard.
+            </p>
+            <div class="project-tech">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JAVASCRIPT</span>
+              <span class="tech-tag">BOOTSTRAP</span>
+              <span class="tech-tag">Chart.js</span>
+              <span class="tech-tag">PHP</span>
+              <span class="tech-tag">MySQL</span>
+            </div>
+            <div class="project-links">
+              <a href="#" target="_blank" class="btn btn-primary">
+                <span>Live Demo</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="experience">
+      <div class="section-title">
+        <h2>Work Experience</h2>
+        <p>
+          My professional journey and key roles that shaped my development
+          career
+        </p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-content glass-card">
+            <h3>Freelance Web Designer / Developer</h3>
+            <span class="date">Jan 2022 - Present</span>
+            <p><strong>Facebook Network</strong> - Metro Manila Philippines</p>
+            <p>
+              Since January 2023, I have been working as a freelance web
+              designer and developer. I design and develop custom websites for
+              small businesses and individual clients, implementing responsive
+              layouts and interactive features while managing client
+              communications, project timelines, and live website deployment.
+            </p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content glass-card">
+            <h3>Junior Web Developer (Internship)</h3>
+            <span class="date">Mar 2020 - Dec 2021</span>
+            <p><strong>PixelWave Solutions</strong> - Remote</p>
+            <p>
+              As a junior web developer intern at PixelWave Solutions, I was
+              responsible for developing company landing pages and internal
+              tools. I collaborated closely with senior developers to optimize
+              website performance and worked extensively with WordPress and
+              front-end frameworks such as Bootstrap.
+            </p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content glass-card">
+            <h3>Student Web Developer</h3>
+            <span class="date">Jun 2019 - Feb 2020</span>
+            <p><strong>Manila Business College</strong> - BSIS</p>
+            <p>
+              During my time as a student web developer at Manila Business
+              College, I built simple websites using HTML, CSS, and JavaScript.
+              I developed a personal portfolio website as part of a class
+              project and gained a solid understanding of basic UI and UX design
+              principles.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="certificates">
+      <div class="section-title">
+        <h2>Certificates & Achievements</h2>
+        <p>
+          Recognitions and credentials that validate my expertise and commitment
+          to growth
+        </p>
+      </div>
+      <div class="certificates-grid">
+        <div class="glass-card certificate-card" data-certificate-id="1">
+          <div class="certificate-img">
+            <img src="img/css.jpg" alt="Computer Systems Servicing NC II Certificate" />
+          </div>
+          <h3>Computer Systems Servicing NC II</h3>
+          <p class="issuer">TESDA</p>
+          <p class="date">2025</p>
+          <p>
+            Certification for skills in computer systems servicing, including
+            hardware and software installation, configuration, and
+            troubleshooting.
+          </p>
+        </div>
+        <div class="glass-card certificate-card" data-certificate-id="2">
+          <div class="certificate-img">
+            <img src="img/evms.jpg" alt="Event Management Service NCIII Certificate" />
+          </div>
+          <h3>Event Management Service NCIII</h3>
+          <p class="issuer">TESDA</p>
+          <p class="date">2024</p>
+          <p>
+            Certification for skills in event management, including planning,
+            coordination, and execution of events.
+          </p>
+        </div>
+        <div class="glass-card certificate-card" data-certificate-id="3">
+          <div class="certificate-img">
+            <img src="img/certofcompletion.jpg" alt="Certified Front-End Web Developer" />
+          </div>
+          <h3>Certified Front-End Web Developer</h3>
+          <p class="issuer">Training Completion</p>
+          <p class="date">2021</p>
+          <p>
+            Comprehensive training in HTML, CSS, JavaScript, and responsive web
+            design principles to build modern web applications.
+          </p>
+        </div>
+        <div class="glass-card certificate-card" data-certificate-id="4">
+          <div class="certificate-img">
+            <img src="img/hackthebox.jpg" alt="Hack The Box Challenge" />
+          </div>
+          <h3>Hack The Box Challenge</h3>
+          <p class="issuer">CHAMPION</p>
+          <p class="date">2024</p>
+          <p>
+            Successfully completed the Hack The Box Challenge, demonstrating
+            advanced skills in penetration testing and cybersecurity.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section id="contact">
+      <div class="section-title">
+        <h2>Get In Touch</h2>
+        <p>
+          Have a project in mind or want to chat about opportunities? Reach out!
+        </p>
+      </div>
+      <div class="contact-container">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon"></div>
+            <div class="contact-text">
+              <h3>Email</h3>
+              <a href="mailto:chalilafable@gmail.com">chalilafable@gmail.com</a>
+              <p>
+                Feel free to reach out for collaborations or just a friendly
+                chat!
+              </p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div class="contact-text">
+              <h3>Location</h3>
+              <p>Metro Manila, Philippines</p>
+              <p>
+                Open to remote opportunities worldwide and local projects in the
+                Philippines.
+              </p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📅</div>
+            <div class="contact-text">
+              <h3>Availability</h3>
+              <p>
+                Currently available for freelance projects and full-time
+                opportunities starting Q3 2026.
+              </p>
+              <p>Response time: Within 24 hours</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card contact-form">
+          <form id="contactForm" action="https://formsubmit.co/chalilafable@gmail.com" method="POST" class="contact-form">
+            <input type="hidden" name="_subject" value="New message from portfolio" />
+            <input type="hidden" name="_captcha" value="false" />
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" class="form-control" placeholder="Your name" required />
+              <div class="form-error">Please enter your name</div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" class="form-control" placeholder="youremail@example.com" required />
+              <div class="form-error">Please enter a valid email address</div>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" class="form-control" placeholder="How can I help you?" required></textarea>
+              <div class="form-error">Message must be at least 10 characters</div>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <span>Send Message</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="logo" style="margin-bottom: 1.5rem; font-size: 2rem">
+            <span>Afable</span> <span>Chalil</span>
+          </div>
+          <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.5rem;">
+            Creating exceptional digital experiences through clean code and
+            thoughtful design. Let's build something amazing together.
+          </p>
+          <div class="social-links" role="navigation" aria-label="Social links">
+            <a href="https://github.com/itschalil" class="social-link github" target="_blank" rel="noopener noreferrer" aria-label="GitHub - Afable Chalil">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.38 7.86 10.9.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.31-1.28-1.66-1.28-1.66-1.04-.71.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.96.1-.75.4-1.25.72-1.54-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.96 10.96 0 012.87-.39c.97 0 1.95.13 2.87.39 2.19-1.5 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.8 1.18 1.83 1.18 3.09 0 4.43-2.71 5.41-5.29 5.69.41.36.78 1.08.78 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.21.68.8.56A11.52 11.52 0 0023.5 12C23.5 5.73 18.27.5 12 .5z"/>
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/afable-chalil-209631282/" class="social-link linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn - Afable Chalil">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4.98 3.5C3.88 3.5 3 4.38 3 5.48c0 1.1.88 1.98 1.98 1.98h.02C6.08 7.46 7 6.58 7 5.48 7 4.38 6.12 3.5 4.98 3.5zM3.5 8.98H6.5V20H3.5zM9.5 8.98h2.86v1.5h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2.02 3.6 4.64V20h-3v-5.08c0-1.21-.02-2.76-1.68-2.76-1.68 0-1.94 1.32-1.94 2.68V20h-3z"/>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/afablechalil" class="social-link facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook - Afable Chalil">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M22 12a10 10 0 10-11.5 9.9v-7h-2.2V12h2.2V9.7c0-2.2 1.32-3.4 3.35-3.4.97 0 1.99.17 1.99.17v2.2h-1.12c-1.1 0-1.44.68-1.44 1.38V12h2.45l-.39 2.9h-2.06v7A10 10 0 0022 12z"/>
+              </svg>
+            </a>
+            <a href="mailto:chalilafable@gmail.com" class="social-link email" aria-label="Email - chalilafable@gmail.com">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>My Skills</h3>
+          <ul class="footer-links">
+            <li><a href="https://roadmap.sh/frontend">Frontend Development</a></li>
+            <li><a href="https://roadmap.sh/backend">Backend Development</a></li>
+            <li><a href="https://roadmap.sh/ux-design">UI/UX Design</a></li>
+            <li><a href="https://roadmap.sh/sql">Database Architecture</a></li>
+            <li><a href="https://roadmap.sh/devops">DevOps & Deployment</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>Developed by Afable Chalil.</p>
+      </div>
+    </footer>
+    <div class="scroll-to-top" id="scrollTop">
+      <div>↑</div>
+    </div>
+    <div id="certificateModal" class="certificate-modal" aria-hidden="true">
+      <div class="modal-content">
+        <button class="close-modal" aria-label="Close modal">&times;</button>
+        <img src="" alt="Certificate details" id="modalCertificateImg" />
+        <div class="modal-details">
+          <h3 id="modalTitle"></h3>
+          <p><strong>Issuer:</strong> <span id="modalIssuer"></span></p>
+          <p><strong>Date:</strong> <span id="modalDate"></span></p>
+          <p id="modalDescription"></p>
+        </div>
+      </div>
+    </div>
+    <div id="formOverlay" aria-hidden="true">
+      <div class="overlay-card" role="status" aria-live="polite">
+        <div id="overlaySpinner" class="overlay-spinner" aria-hidden="true"></div>
+        <div id="overlaySuccess" class="overlay-success" aria-hidden="true" title="Success">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 6L9 17l-5-5"></path>
+          </svg>
+        </div>
+        <div>
+          <div id="overlayMain" class="overlay-text">Sending message...</div>
+          <div class="overlay-sub">Please wait</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const loader = document.getElementById("loader");
+      const navbar = document.getElementById("navbar");
+      const hamburger = document.querySelector(".hamburger");
+      const navLinks = document.querySelector(".nav-links");
+      const navItems = document.querySelectorAll(".nav-links a");
+      const scrollTopBtn = document.getElementById("scrollTop");
+      const contactForm = document.getElementById("contactForm");
+      const formGroups = document.querySelectorAll(".form-group");
+      const formControls = document.querySelectorAll(".form-control");
+      const formOverlay = document.getElementById("formOverlay");
+      const certificateModal = document.getElementById("certificateModal");
+      const closeModalBtn = document.querySelector(".close-modal");
+      const certificateCards = document.querySelectorAll(".certificate-card");
+      const modalCertificateImg = document.getElementById("modalCertificateImg");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalIssuer = document.getElementById("modalIssuer");
+      const modalDate = document.getElementById("modalDate");
+      const modalDescription = document.getElementById("modalDescription");
+
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          loader.style.opacity = "0";
+          loader.style.visibility = "hidden";
+        }, 800);
+      });
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 100) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+        if (window.scrollY > 500) {
+          scrollTopBtn.classList.add("show");
+        } else {
+          scrollTopBtn.classList.remove("show");
+        }
+      });
+
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navLinks.classList.toggle("active");
+        document.body.style.overflow = navLinks.classList.contains("active") ? "hidden" : "auto";
+      });
+
+      navItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          hamburger.classList.remove("active");
+          navLinks.classList.remove("active");
+          document.body.style.overflow = "auto";
+        });
+      });
+
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("href");
+          if (targetId === "#") return;
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: "smooth",
+            });
+            navItems.forEach((item) => item.classList.remove("active"));
+            this.classList.add("active");
+          }
+        });
+      });
+
+      scrollTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      const overlaySpinner = document.getElementById("overlaySpinner");
+      const overlaySuccess = document.getElementById("overlaySuccess");
+      const overlayMain = document.getElementById("overlayMain");
+
+      function showOverlay() {
+        overlaySpinner.style.display = "block";
+        overlaySuccess.classList.remove("show");
+        overlayMain.textContent = "Sending message...";
+        formOverlay.classList.add("show");
+        formOverlay.setAttribute("aria-hidden", "false");
+      }
+      function showOverlaySuccess() {
+        overlaySpinner.style.display = "none";
+        overlaySuccess.classList.add("show");
+        overlayMain.textContent = "Your message was successfully sent";
+      }
+
+      contactForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let isValid = true;
+        const name = document.getElementById("name");
+        if (name.value.trim() === "") {
+          showError(name.parentElement, "Please enter your name");
+          isValid = false;
+        } else {
+          showSuccess(name.parentElement);
+        }
+        const email = document.getElementById("email");
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email.value.trim())) {
+          showError(email.parentElement, "Please enter a valid email address");
+          isValid = false;
+        } else {
+          showSuccess(email.parentElement);
+        }
+        const message = document.getElementById("message");
+        if (message.value.trim().length < 10) {
+          showError(message.parentElement, "Message must be at least 10 characters");
+          isValid = false;
+        } else {
+          showSuccess(message.parentElement);
+        }
+        if (!isValid) return;
+        showOverlay();
+        setTimeout(() => {
+          showOverlaySuccess();
+        }, 1000);
+        setTimeout(() => {
+          const endpoint = "https://formsubmit.co/ajax/chalilafable@gmail.com";
+          const formData = new FormData(contactForm);
+          fetch(endpoint, {
+            method: "POST",
+            headers: { Accept: "application/json" },
+            body: formData,
+          })
+            .then(async (res) => {
+              const data = await res.json().catch(() => ({}));
+              if (!res.ok) throw new Error(data.message || "Send failed");
+              contactForm.reset();
+              overlayMain.textContent = "Your message was successfully sent";
+              setTimeout(() => {
+                formOverlay.classList.remove("show");
+                formOverlay.setAttribute("aria-hidden", "true");
+                window.location.reload();
+              }, 900);
+            })
+            .catch((err) => {
+              overlaySpinner.style.display = "none";
+              overlaySuccess.classList.remove("show");
+              overlayMain.textContent = "Failed to send message. Please try again.";
+              setTimeout(() => {
+                formOverlay.classList.remove("show");
+                formOverlay.setAttribute("aria-hidden", "true");
+              }, 1800);
+              console.error("Form send error:", err);
+            });
+        }, 1800);
+      });
+
+      formControls.forEach((control) => {
+        control.addEventListener("blur", () => {
+          if (control.value.trim() !== "") {
+            if (control.id === "email") {
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (emailRegex.test(control.value.trim())) {
+                showSuccess(control.parentElement);
+              } else {
+                showError(control.parentElement, "Please enter a valid email address");
+              }
+            } else if (control.id === "message" && control.value.trim().length < 10) {
+              showError(control.parentElement, "Message must be at least 10 characters");
+            } else {
+              showSuccess(control.parentElement);
+            }
+          } else {
+            control.parentElement.classList.remove("error", "success");
+          }
+        });
+        control.addEventListener("input", () => {
+          if (control.parentElement.classList.contains("error") || control.parentElement.classList.contains("success")) {
+            control.parentElement.classList.remove("error", "success");
+          }
+        });
+      });
+
+      function showError(formGroup, message) {
+        formGroup.classList.add("error");
+        formGroup.classList.remove("success");
+        formGroup.querySelector(".form-error").textContent = message;
+      }
+      function showSuccess(formGroup) {
+        formGroup.classList.add("success");
+        formGroup.classList.remove("error");
+      }
+
+      window.addEventListener("load", () => {
+        updateActiveNavLink();
+        window.addEventListener("scroll", updateActiveNavLink);
+      });
+
+      function updateActiveNavLink() {
+        const sections = document.querySelectorAll("section");
+        const scrollPosition = window.scrollY + 100;
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          const sectionId = section.getAttribute("id");
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            navItems.forEach((item) => {
+              item.classList.remove("active");
+              if (item.getAttribute("href") === `#${sectionId}`) {
+                item.classList.add("active");
+              }
+            });
+          }
+        });
+      }
+
+      const animateOnScroll = () => {
+        const elements = document.querySelectorAll(".glass-card, .stat-item, .project-card, .timeline-content, .certificate-card");
+        elements.forEach((element) => {
+          const elementPosition = element.getBoundingClientRect().top;
+          const screenPosition = window.innerHeight / 1.3;
+          if (elementPosition < screenPosition) {
+            element.style.opacity = "1";
+            element.style.transform = "translateY(0)";
+          }
+        });
+      };
+
+      document.querySelectorAll(".glass-card, .stat-item, .project-card, .timeline-content, .certificate-card").forEach((element) => {
+        element.style.opacity = "0";
+        element.style.transform = "translateY(20px)";
+        element.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+      });
+
+      window.addEventListener("scroll", animateOnScroll);
+      window.addEventListener("load", animateOnScroll);
+      setTimeout(animateOnScroll, 300);
+
+      certificateCards.forEach((card) => {
+        card.addEventListener("click", () => {
+          const imgSrc = card.querySelector(".certificate-img img").src;
+          const title = card.querySelector("h3").textContent;
+          const issuer = card.querySelector(".issuer").textContent;
+          const date = card.querySelector(".date").textContent;
+          const description = card.querySelector("p:last-of-type").textContent;
+          modalCertificateImg.src = imgSrc;
+          modalTitle.textContent = title;
+          modalIssuer.textContent = issuer;
+          modalDate.textContent = date;
+          modalDescription.textContent = description;
+          certificateModal.classList.add("show");
+          certificateModal.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        });
+      });
+
+      closeModalBtn.addEventListener("click", () => {
+        certificateModal.classList.remove("show");
+        certificateModal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "auto";
+      });
+
+      certificateModal.addEventListener("click", (e) => {
+        if (e.target === certificateModal) {
+          certificateModal.classList.remove("show");
+          certificateModal.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "auto";
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && certificateModal.classList.contains("show")) {
+          certificateModal.classList.remove("show");
+          certificateModal.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "auto";
+        }
+      });
+    </script>
+  </body>
+</html>
+

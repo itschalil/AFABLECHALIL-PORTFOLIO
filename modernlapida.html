@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PrintCraft Pro | Lapida & Souvenirs</title>
+    <link rel="icon" href="img/lil.ico" type="image/x-icon">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* 🌿 DARK GREEN GLASSMORPHISM THEME */
+        --primary: #1b4d3e;        /* Deep Forest Green */
+        --primary-light: #2d6a57;  /* Lighter Green for hover */
+        --secondary: #10b981;      /* Emerald Accent */
+        --secondary-glow: rgba(16, 185, 129, 0.25);
+        --gold: #c9a959;           /* Muted Gold for elegance */
+        --gold-bright: #e6c37a;    /* Brighter gold for highlights */
+        --text: #f0f7f4;           /* Soft white-green text */
+        --text-muted: #a3b8b0;     /* Muted green-gray */
+        --bg: #0a0f0d;             /* Deep green-black background */
+        --bg-gradient: 
+          radial-gradient(circle at 15% 25%, rgba(27, 77, 62, 0.25) 0%, transparent 45%),
+          radial-gradient(circle at 85% 75%, rgba(16, 185, 129, 0.15) 0%, transparent 45%),
+          radial-gradient(circle at 50% 50%, rgba(201, 169, 89, 0.08) 0%, transparent 55%);
+        --card: rgba(22, 38, 34, 0.65);     /* Semi-transparent dark green card */
+        --card-border: rgba(16, 185, 129, 0.18); /* Subtle emerald border */
+        --card-hover-border: rgba(16, 185, 129, 0.45);
+        --blur: blur(20px);
+        --radius: 18px;
+        --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        --shadow-glow: 0 10px 40px rgba(16, 185, 129, 0.15);
+        --shadow-deep: 0 20px 60px rgba(0, 0, 0, 0.55);
+      }
+
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html { scroll-behavior: smooth; }
+      a { text-decoration:none; color:var(--text); }
+      body {
+        font-family:"Poppins",sans-serif;
+        background:var(--bg);
+        background-image: var(--bg-gradient);
+        background-attachment:fixed;
+        color:var(--text);
+        overflow-x:hidden;
+        line-height:1.6;
+      }
+
+      /* NAV */
+      nav {
+        position:fixed; top:0; left:0; width:100%; z-index:1000;
+        padding:1rem 5%; display:flex; justify-content:space-between; align-items:center;
+        background:rgba(10, 15, 13, 0.85); 
+        backdrop-filter:var(--blur);
+        border-bottom:1px solid var(--card-border);
+        transition:var(--transition);
+      }
+      nav.scrolled { 
+        padding:0.7rem 5%; 
+        box-shadow: var(--shadow-deep);
+        background:rgba(10, 15, 13, 0.95);
+      }
+      .nav-logo {
+        font-size:1.6rem; font-weight:800;
+        background:linear-gradient(135deg, var(--secondary), var(--gold));
+        -webkit-background-clip:text; background-clip:text; color:transparent;
+        letter-spacing:-0.5px;
+      }
+      .nav-logo span {
+        background:linear-gradient(135deg, var(--gold-bright), var(--secondary));
+        -webkit-background-clip:text; background-clip:text; color:transparent;
+      }
+      .nav-links { display:flex; gap:2rem; align-items:center; list-style:none; }
+      .nav-links a {
+        font-size:0.9rem; font-weight:500; color:var(--text-muted);
+        position:relative; padding:0.4rem 0; transition:var(--transition);
+      }
+      .nav-links a:hover, .nav-links a.active { color:var(--text); }
+      .nav-links a::after {
+        content:''; position:absolute; bottom:0; left:0; width:0; height:2px;
+        background:var(--secondary); transition:var(--transition);
+        border-radius:2px;
+      }
+      .nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+      
+      .btn-back {
+        padding:0.5rem 1.2rem; border-radius:50px;
+        background:linear-gradient(135deg, var(--primary), var(--secondary));
+        color:var(--text); font-weight:600; font-size:0.85rem;
+        display:inline-flex; align-items:center; gap:0.4rem;
+        transition:var(--transition); border:1px solid var(--card-border);
+      }
+      .btn-back:hover { 
+        transform:translateY(-2px); 
+        box-shadow: var(--shadow-glow);
+        border-color: var(--secondary);
+      }
+      .btn-back svg { width:16px; height:16px; }
+      
+      .hamburger {
+        display:none; background:none; border:none; cursor:pointer;
+        width:36px; height:36px; position:relative; z-index:2000;
+      }
+      .hamburger span {
+        display:block; width:22px; height:2px; background:var(--text);
+        border-radius:2px; position:absolute; left:50%; transform:translateX(-50%);
+        transition:var(--transition);
+      }
+      .hamburger span:nth-child(1){ top:9px; }
+      .hamburger span:nth-child(2){ top:17px; }
+      .hamburger span:nth-child(3){ top:25px; }
+      .hamburger.active span:nth-child(1){ transform:translate(-50%,-50%) rotate(45deg); top:17px; }
+      .hamburger.active span:nth-child(2){ opacity:0; }
+      .hamburger.active span:nth-child(3){ transform:translate(-50%,-50%) rotate(-45deg); top:17px; }
+
+      /* HERO */
+      .hero {
+        min-height:100vh; display:flex; align-items:center; justify-content:center;
+        padding:6rem 5% 2rem; position:relative; overflow:hidden;
+      }
+      .hero-grid {
+        display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;
+        max-width:1200px; width:100%;
+      }
+      .hero-text { z-index:10; }
+      .hero-badge {
+        display:inline-block; padding:0.45rem 1.3rem; border-radius:50px;
+        background:rgba(16, 185, 129, 0.12); 
+        border:1px solid rgba(16, 185, 129, 0.35);
+        color:var(--secondary); font-size:0.73rem; font-weight:600;
+        letter-spacing:1.2px; text-transform:uppercase; margin-bottom:1.3rem;
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+      }
+      .hero h1 {
+        font-size:clamp(2.5rem, 6vw, 4.5rem); font-weight:900;
+        line-height:1.05; margin-bottom:1rem;
+        background:linear-gradient(135deg, var(--text), var(--secondary), var(--gold-bright));
+        background-size:220% auto;
+        -webkit-background-clip:text; background-clip:text; color:transparent;
+        animation:gradientShift 6s ease infinite;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      }
+      @keyframes gradientShift { 
+        0%,100%{background-position:0% center;} 
+        50%{background-position:100% center;} 
+      }
+      .hero-sub { 
+        font-size:1.1rem; color:var(--text-muted); margin-bottom:1.6rem; 
+        line-height:1.7; max-width:460px; 
+        text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      }
+      .hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+      
+      .btn {
+        padding:0.85rem 1.9rem; border-radius:50px; font-weight:600;
+        font-size:0.95rem; cursor:pointer; transition:var(--transition);
+        border:none; display:inline-flex; align-items:center; gap:0.5rem;
+        position:relative; overflow:hidden; z-index:1;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      }
+      .btn::before {
+        content:''; position:absolute; inset:0; z-index:-1;
+        transition:var(--transition); opacity:0.95;
+        border-radius: inherit;
+      }
+      .btn-primary::before { 
+        background:linear-gradient(135deg, var(--primary), var(--secondary)); 
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+      }
+      .btn-gold::before { 
+        background:linear-gradient(135deg, var(--gold), var(--gold-bright)); 
+        color: #1a1a2e;
+      }
+      .btn:hover::before { opacity:1; transform:scale(1.03); }
+      .btn span { position:relative; z-index:2; }
+      .btn-primary span { color:#fff; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+      .btn-gold span { color:#1a1a2e; font-weight:700; }
+      
+      .hero-visual { position:relative; }
+      .hero-img-main {
+        width:100%; border-radius:22px; overflow:hidden;
+        border:1px solid var(--card-border);
+        box-shadow: var(--shadow-deep);
+        aspect-ratio:4/3; position:relative;
+        background: linear-gradient(145deg, rgba(22,38,34,0.4), rgba(16,185,129,0.08));
+      }
+      .hero-img-main img { width:100%; height:100%; object-fit:cover; transition:var(--transition); }
+      .hero-img-main:hover img { transform:scale(1.02); }
+      
+      .hero-float-card {
+        position:absolute; bottom:-22px; left:-32px;
+        background:var(--card); backdrop-filter:var(--blur);
+        border:1px solid var(--card-border); border-radius:16px;
+        padding:1rem 1.5rem; display:flex; align-items:center; gap:0.9rem;
+        box-shadow: var(--shadow-glow), 0 10px 30px rgba(0,0,0,0.35);
+        animation:floatY 3.5s ease-in-out infinite;
+        z-index: 5;
+      }
+      @keyframes floatY { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+      .float-icon {
+        width:44px; height:44px; border-radius:14px;
+        background:linear-gradient(135deg, var(--primary), var(--secondary));
+        display:flex; align-items:center; justify-content:center; font-size:1.3rem;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+      .float-text strong { display:block; font-size:0.97rem; color: var(--text); }
+      .float-text span { font-size:0.76rem; color:var(--text-muted); }
+
+      /* PRODUCTS */
+      .products {
+        padding:4rem 5%; max-width:1300px; margin:0 auto;
+      }
+      .section-head { text-align:center; margin-bottom:2.8rem; }
+      .section-head h2 {
+        font-size:clamp(1.9rem, 4.5vw, 3rem); font-weight:800;
+        display:inline-block; position:relative; padding-bottom:12px;
+        background: linear-gradient(135deg, var(--text), var(--secondary));
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .section-head h2::after {
+        content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+        width:70px; height:3px; 
+        background:linear-gradient(90deg, var(--primary), var(--secondary), var(--gold));
+        border-radius:3px;
+        box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+      }
+      .section-head p { color:var(--text-muted); margin-top:0.7rem; font-size:1rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+      
+      .product-grid {
+        display:grid; grid-template-columns:repeat(3,1fr); gap:1.8rem;
+      }
+      .product-card {
+        background:var(--card); backdrop-filter:var(--blur);
+        border:1px solid var(--card-border); border-radius:var(--radius);
+        overflow:hidden; transition:var(--transition);
+        position:relative; cursor:pointer;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      }
+      .product-card:hover { 
+        transform:translateY(-8px); 
+        border-color: var(--card-hover-border); 
+        box-shadow: 0 20px 50px rgba(16, 185, 129, 0.2), 0 10px 30px rgba(0,0,0,0.4);
+      }
+      .product-img {
+        width:100%; aspect-ratio:4/3; overflow:hidden; position:relative;
+        background: linear-gradient(145deg, rgba(22,38,34,0.3), transparent);
+      }
+      .product-img img { width:100%; height:100%; object-fit:cover; transition:var(--transition); }
+      .product-card:hover .product-img img { transform:scale(1.1); opacity:0.92; }
+      
+      .badge {
+        position:absolute; top:14px; right:14px; padding:0.35rem 0.9rem;
+        border-radius:50px; font-size:0.72rem; font-weight:700;
+        text-transform:uppercase; letter-spacing:0.6px;
+        border: 1px solid rgba(255,255,255,0.2);
+        backdrop-filter: blur(4px);
+      }
+      .badge-gold { 
+        background:linear-gradient(135deg, var(--gold), var(--gold-bright)); 
+        color:#0d1117; 
+        box-shadow: 0 3px 10px rgba(201, 169, 89, 0.3);
+      }
+      .badge-blue { 
+        background:linear-gradient(135deg, var(--secondary), #34d399); 
+        color:#0d1117; 
+        box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
+      }
+      .badge-purple { 
+        background:linear-gradient(135deg, var(--primary), var(--primary-light)); 
+        color:var(--text); 
+        box-shadow: 0 3px 10px rgba(27, 77, 62, 0.4);
+      }
+      
+      .product-info { padding:1.3rem; }
+      .product-info h3 { 
+        font-size:1.25rem; font-weight:700; margin-bottom:0.4rem; 
+        background: linear-gradient(135deg, var(--text), var(--secondary));
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .product-info .price {
+        font-size:1.4rem; font-weight:800;
+        background:linear-gradient(135deg, var(--gold-bright), var(--gold));
+        -webkit-background-clip:text; background-clip:text; color:transparent;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      }
+      .product-info .price-label { font-size:0.77rem; color:var(--text-muted); }
+      .product-tags { display:flex; gap:0.5rem; margin:0.7rem 0; flex-wrap:wrap; }
+      .tag {
+        padding:0.25rem 0.7rem; border-radius:22px; font-size:0.72rem;
+        background:rgba(16, 185, 129, 0.12); 
+        border:1px solid rgba(16, 185, 129, 0.28);
+        color:var(--secondary); font-weight:500;
+        transition: var(--transition);
+      }
+      .product-card:hover .tag {
+        background: rgba(16, 185, 129, 0.2);
+        border-color: var(--secondary);
+      }
+      .order-link {
+        display:inline-flex; align-items:center; gap:0.4rem;
+        padding:0.55rem 1.1rem; border-radius:50px; margin-top:0.6rem;
+        background:linear-gradient(135deg, var(--primary), var(--secondary));
+        color:#fff; font-weight:600; font-size:0.82rem;
+        transition:var(--transition);
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+      .order-link:hover { 
+        transform:translateY(-3px); 
+        box-shadow: var(--shadow-glow);
+        border-color: var(--secondary);
+      }
+
+      /* GALLERY */
+      .gallery {
+        padding:3.5rem 5%; max-width:1300px; margin:0 auto;
+      }
+      .gallery-grid {
+        display:grid; grid-template-columns:repeat(4,1fr); gap:1rem;
+      }
+      .gallery-item {
+        border-radius:14px; overflow:hidden; aspect-ratio:1;
+        position:relative; cursor:pointer;
+        border: 1px solid var(--card-border);
+        background: var(--card);
+        transition: var(--transition);
+      }
+      .gallery-item:hover {
+        border-color: var(--card-hover-border);
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-glow);
+      }
+      .gallery-item img { width:100%; height:100%; object-fit:cover; transition:var(--transition); }
+      .gallery-item:hover img { transform:scale(1.12); opacity:0.7; }
+      .gallery-item .overlay {
+        position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+        opacity:0; transition:var(--transition);
+        background:linear-gradient(135deg, rgba(27,77,62,0.85), rgba(16,185,129,0.75));
+        backdrop-filter: blur(4px);
+      }
+      .gallery-item:hover .overlay { opacity:1; }
+      .overlay span {
+        padding:0.5rem 1.4rem; border-radius:50px;
+        background:rgba(255,255,255,0.15); backdrop-filter:var(--blur);
+        font-weight:600; font-size:0.87rem; color: var(--text);
+        border: 1px solid rgba(255,255,255,0.25);
+        transform:translateY(10px); transition:var(--transition);
+      }
+      .gallery-item:hover .overlay span { transform:translateY(0); }
+      .gallery-item:nth-child(1) { grid-column:span 2; grid-row:span 2; aspect-ratio:auto; }
+
+      /* STATS BAR */
+      .stats-bar {
+        padding:2.5rem 5%; max-width:1100px; margin:0 auto;
+      }
+      .stats-row {
+        display:grid; grid-template-columns:repeat(4,1fr); gap:1.8rem;
+        background:var(--card); backdrop-filter:var(--blur);
+        border:1px solid var(--card-border); border-radius:var(--radius);
+        padding:2.2rem;
+        box-shadow: var(--shadow-deep);
+      }
+      .stat { text-align:center; padding: 0.5rem; }
+      .stat-num {
+        font-size:clamp(1.7rem, 3.5vw, 2.4rem); font-weight:800;
+        background:linear-gradient(135deg, var(--gold-bright), var(--secondary));
+        -webkit-background-clip:text; background-clip:text; color:transparent;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      }
+      .stat-label { font-size:0.82rem; color:var(--text-muted); margin-top:0.3rem; font-weight: 500; }
+
+      /* CONTACT */
+      .contact {
+        padding:3.5rem 5%; max-width:1100px; margin:0 auto;
+      }
+      .contact-grid {
+        display:grid; grid-template-columns:1fr 1fr; gap:2.2rem;
+      }
+      .contact-cards { display:flex; flex-direction:column; gap:1.1rem; }
+      .c-card {
+        display:flex; align-items:flex-start; gap:1.1rem;
+        background:var(--card); backdrop-filter:var(--blur);
+        border:1px solid var(--card-border); border-radius:16px;
+        padding:1.3rem; transition:var(--transition);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      }
+      .c-card:hover { 
+        border-color:var(--card-hover-border); 
+        transform:translateX(5px); 
+        box-shadow: var(--shadow-glow), 0 8px 25px rgba(0,0,0,0.3);
+      }
+      .c-icon {
+        width:46px; height:46px; min-width:46px; border-radius:14px;
+        background:linear-gradient(135deg, rgba(27,77,62,0.4), rgba(16,185,129,0.3));
+        display:flex; align-items:center; justify-content:center; font-size:1.4rem;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+      }
+      .c-text strong { display:block; font-size:0.93rem; margin-bottom:0.15rem; color: var(--text); }
+      .c-text span { font-size:0.82rem; color:var(--text-muted); display: block; margin-bottom: 0.2rem; }
+      .c-text a { color:var(--secondary); font-size:0.87rem; font-weight: 500; transition: var(--transition); }
+      .c-text a:hover { color: var(--gold-bright); }
+      
+      .contact-form-box {
+        background:var(--card); backdrop-filter:var(--blur);
+        border:1px solid var(--card-border); border-radius:var(--radius);
+        padding:2rem;
+        box-shadow: var(--shadow-deep);
+      }
+      .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+      .form-group { margin-bottom:1rem; }
+      .form-group label { 
+        display:block; font-size:0.82rem; font-weight:500; margin-bottom:0.4rem; 
+        color:var(--text-muted); 
+      }
+      .form-group input, .form-group textarea, .form-group select {
+        width:100%; padding:0.8rem 1.1rem; border-radius:12px;
+        background:rgba(15, 25, 23, 0.6); border:1px solid var(--card-border);
+        color:var(--text); font-family:"Poppins",sans-serif; font-size:0.87rem;
+        transition:var(--transition);
+      }
+      .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+        outline:none; border-color:var(--secondary);
+        box-shadow:0 0 0 4px var(--secondary-glow);
+        background: rgba(18, 30, 28, 0.8);
+      }
+      .form-group textarea { min-height:90px; resize:vertical; }
+      .form-error { color:#ff6b7a; font-size:0.72rem; margin-top:0.25rem; display:none; font-weight: 500; }
+      .form-group.error input, .form-group.error textarea { border-color:#ff6b7a; }
+      .form-group.error .form-error { display:block; }
+      
+      .submit-btn {
+        width:100%; padding:0.9rem; border-radius:50px; border:none;
+        background:linear-gradient(135deg, var(--primary), var(--secondary));
+        color:#fff; font-weight:600; font-size:0.97rem; cursor:pointer;
+        transition:var(--transition);
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+      .submit-btn:hover { 
+        transform:translateY(-3px); 
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+      }
+      .submit-btn:active { transform: translateY(-1px); }
+      .submit-btn:disabled { opacity:0.65; cursor:not-allowed; transform:none; box-shadow: none; }
+
+      /* FOOTER */
+      footer {
+        padding:2.2rem 5%; border-top:1px solid var(--card-border);
+        display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.2rem;
+        background: rgba(10, 15, 13, 0.7);
+        backdrop-filter: var(--blur);
+      }
+      .footer-left { font-size:0.87rem; color:var(--text-muted); }
+      .footer-left a { color:var(--secondary); font-weight: 500; transition: var(--transition); }
+      .footer-left a:hover { color: var(--gold-bright); }
+      
+      .socials { display:flex; gap:0.9rem; }
+      .socials a {
+        width:40px; height:40px; border-radius:50%;
+        background:rgba(22, 38, 34, 0.7); 
+        display:flex; align-items:center; justify-content:center;
+        transition:var(--transition);
+        border: 1px solid var(--card-border);
+      }
+      .socials a:hover { 
+        background:var(--primary); 
+        transform:translateY(-4px); 
+        border-color: var(--secondary);
+        box-shadow: var(--shadow-glow);
+      }
+      .socials a svg { width:17px; height:17px; fill:var(--text-muted); transition: var(--transition); }
+      .socials a:hover svg { fill:#fff; }
+
+      /* IMAGE MODAL */
+      .img-modal {
+        position:fixed; inset:0; z-index:99999;
+        background:rgba(8, 12, 11, 0.94); 
+        display:flex; align-items:center; justify-content:center;
+        opacity:0; visibility:hidden; transition:var(--transition);
+        backdrop-filter: blur(10px);
+      }
+      .img-modal.show { opacity:1; visibility:visible; }
+      .img-modal img { 
+        max-width:92%; max-height:87vh; border-radius:18px; 
+        box-shadow: 0 25px 80px rgba(0,0,0,0.7), 0 0 0 1px var(--card-border);
+        border: 1px solid var(--card-border);
+      }
+      .img-modal .close-modal {
+        position:absolute; top:25px; right:30px; font-size:2.2rem;
+        color:var(--text); cursor:pointer; background:none; border:none; transition:var(--transition);
+        width: 44px; height: 44px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .img-modal .close-modal:hover { 
+        color:var(--secondary); 
+        transform:rotate(90deg) scale(1.1); 
+        background: rgba(16, 185, 129, 0.15);
+      }
+
+      /* SCROLL TOP */
+      .scroll-top {
+        position:fixed; bottom:2.2rem; right:2.2rem; width:46px; height:46px;
+        border-radius:50%; background:var(--card); border:1px solid var(--card-border);
+        display:flex; align-items:center; justify-content:center; cursor:pointer;
+        z-index:999; opacity:0; visibility:hidden; transform:translateY(18px);
+        transition:var(--transition);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      }
+      .scroll-top.show { opacity:1; visibility:visible; transform:translateY(0); }
+      .scroll-top:hover { 
+        background:linear-gradient(135deg, var(--primary), var(--secondary)); 
+        border-color: var(--secondary);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-glow);
+      }
+      .scroll-top i { font-size:1.3rem; color:#fff; font-style:normal; font-weight: bold; }
+
+      /* LOADER */
+      #loader {
+        position:fixed; inset:0; z-index:99999; background:var(--bg);
+        display:flex; align-items:center; justify-content:center;
+        transition:opacity 0.5s, visibility 0.5s;
+      }
+      #loader.hidden { opacity:0; visibility:hidden; }
+      .loader-ring {
+        width:55px; height:55px; border-radius:50%;
+        border:4px solid rgba(16, 185, 129, 0.15); 
+        border-top-color: var(--secondary);
+        border-bottom-color: var(--gold);
+        animation:spin 0.9s linear infinite;
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+      }
+      @keyframes spin { to{transform:rotate(360deg);} }
+
+      /* ANIMATE ON SCROLL */
+      .reveal {
+        opacity:0; transform:translateY(25px);
+        transition:opacity 0.6s ease, transform 0.6s ease;
+      }
+      .reveal.visible { opacity:1; transform:translateY(0); }
+
+      /* RESPONSIVE */
+      @media(max-width:992px) {
+        .hero-grid { grid-template-columns:1fr; text-align:center; }
+        .hero-sub { margin-left:auto; margin-right:auto; }
+        .hero-btns { justify-content:center; }
+        .hero-visual { max-width:520px; margin:0 auto; }
+        .product-grid { grid-template-columns:1fr; max-width:520px; margin:0 auto; }
+        .gallery-grid { grid-template-columns:repeat(2,1fr); }
+        .gallery-item:nth-child(1) { grid-column:span 2; grid-row:span 1; }
+        .stats-row { grid-template-columns:repeat(2,1fr); }
+        .contact-grid { grid-template-columns:1fr; }
+      }
+      @media(max-width:768px) {
+        .nav-links {
+          position:fixed; top:0; right:-100%; width:80%; height:100vh;
+          background:rgba(13, 20, 18, 0.98); backdrop-filter:var(--blur);
+          flex-direction:column; justify-content:center; align-items:center;
+          gap:2rem; transition:var(--transition);
+          border-left:1px solid var(--card-border); z-index:1500;
+        }
+        .nav-links.active { right:0; }
+        .hamburger { display:block; }
+        .hero { padding:5rem 5% 2.5rem; min-height:auto; }
+        .hero h1 { font-size:2.3rem; }
+        .hero-float-card { left:15px; bottom:-18px; padding: 0.9rem 1.3rem; }
+        .float-icon { width: 40px; height: 40px; font-size: 1.1rem; }
+        .gallery-grid { grid-template-columns:1fr 1fr; }
+        .form-row { grid-template-columns:1fr; }
+        footer { flex-direction:column; text-align:center; padding: 1.8rem 5%; }
+        .stats-row { padding: 1.8rem; gap: 1.2rem; }
+      }
+      
+      /* EXTRA POLISH: Subtle ambient glow on hover for key elements */
+      .product-card::after,
+      .c-card::after,
+      .gallery-item::after {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(135deg, transparent, rgba(16, 185, 129, 0.3), transparent);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .product-card:hover::after,
+      .c-card:hover::after,
+      .gallery-item:hover::after {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- LOADER -->
+    <div id="loader"><div class="loader-ring"></div></div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+      <a href="index.html" class="nav-logo">Print<span>Craft</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li>
+          <a href="index.html" class="btn-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Developer Profile
+          </a>
+        </li>
+      </ul>
+      <button class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-grid">
+        <div class="hero-text reveal">
+          <div class="hero-badge">✨ Premium Printing</div>
+          <h1>Modern Lapida & Custom Print</h1>
+          <p class="hero-sub">Memorial markers, souvenirs & magnets — crafted with quality, care, and timeless elegance.</p>
+          <div class="hero-btns">
+            <a href="#products" class="btn btn-primary"><span>View Products</span></a>
+            <a href="https://www.facebook.com/afablechalil" target="_blank" class="btn btn-gold"><span>💬 Chat Us</span></a>
+          </div>
+        </div>
+        <div class="hero-visual reveal">
+          <div class="hero-img-main">
+            <img src="https://image.qwenlm.ai/public_source/688c3fb6-16d5-48c8-9bee-142208f171de/195b13030-f6bc-4871-9342-7a0f7a5c85c1.png" alt="Modern Lapida" />
+          </div>
+          <div class="hero-float-card">
+            <div class="float-icon">✓</div>
+            <div class="float-text">
+              <strong>500+ Orders</strong>
+              <span>Delivered Nationwide</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="products" id="products">
+      <div class="section-head reveal">
+        <h2>Our Products</h2>
+        <p>Premium quality printing crafted with precision and care for every special moment</p>
+      </div>
+      <div class="product-grid">
+        <!-- Lapida -->
+        <div class="product-card reveal">
+          <div class="product-img">
+            <img src="https://image.qwenlm.ai/public_source/688c3fb6-16d5-48c8-9bee-142208f171de/195b13030-f6bc-4871-9342-7a0f7a5c85c1.png" alt="Modern Lapida" />
+            <span class="badge badge-gold">Best Seller</span>
+          </div>
+          <div class="product-info">
+            <h3>Modern Lapida</h3>
+            <div class="product-tags">
+              <span class="tag">Granite</span>
+              <span class="tag">Marble</span>
+              <span class="tag">Custom Engrave</span>
+            </div>
+            <span class="price">₱2,500+ </span>
+            <span class="price-label"> / starting</span>
+            <br/>
+            <a href="https://www.facebook.com/afablechalil" target="_blank" class="order-link">Order Now →</a>
+          </div>
+        </div>
+        <!-- Souvenirs -->
+        <div class="product-card reveal">
+          <div class="product-img">
+            <img src="https://image.qwenlm.ai/public_source/688c3fb6-16d5-48c8-9bee-142208f171de/1ba501478-97c2-4fd1-b1a0-bff78891929f.png" alt="Custom Souvenirs" />
+            <span class="badge badge-blue">Popular</span>
+          </div>
+          <div class="product-info">
+            <h3>Custom Souvenirs</h3>
+            <div class="product-tags">
+              <span class="tag">Mugs</span>
+              <span class="tag">Keychains</span>
+              <span class="tag">T-Shirts</span>
+            </div>
+            <span class="price">₱50+ </span>
+            <span class="price-label"> / per item</span>
+            <br/>
+            <a href="https://www.facebook.com/afablechalil" target="_blank" class="order-link">Order Now →</a>
+          </div>
+        </div>
+        <!-- Magnets -->
+        <div class="product-card reveal">
+          <div class="product-img">
+            <img src="https://image.qwenlm.ai/public_source/688c3fb6-16d5-48c8-9bee-142208f171de/1f5f8c499-3fc0-49af-b692-430329102376.png" alt="Ref Magnets" />
+            <span class="badge badge-purple">New</span>
+          </div>
+          <div class="product-info">
+            <h3>Ref Magnets</h3>
+            <div class="product-tags">
+              <span class="tag">Photo</span>
+              <span class="tag">Custom Shape</span>
+              <span class="tag">Glossy</span>
+            </div>
+            <span class="price">₱30+ </span>
+            <span class="price-label"> / per piece</span>
+            <br/>
+            <a href="https://www.facebook.com/afablechalil" target="_blank" class="order-link">Order Now →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery" id="gallery">
+      <div class="section-head reveal">
+        <h2>Our Work</h2>
+        <p>Browse our portfolio of completed projects and custom creations</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item reveal" onclick="openModal(this)">
+          <img src="https://image.qwenlm.ai/public_source/688c3fb6-16d5-48c8-9bee-142208f171de/195b13030-f6bc-4871-9342-7a0f7a5c85c1.png" alt="Lapida" />
+          <div class="overlay"><span>View Project</span></div>
+        </div>
+        <div class="gallery-item reveal" onclick="openModal(this)">
+          <img src="https://image.qwenlm.ai/public_source/688c3fb6-16d5-48c8-9bee-142208f171de/1ba501478-97c2-4fd1-b1a0-bff78891929f.png" alt="Souvenirs" />
+          <div class="overlay"><span>View Project</span></div>
+        </div>
+        <div class="gallery-item reveal" onclick="openModal(this)">
+          <img src="https://image.qwenlm.ai/public_source/688c3fb6-16d5-48c8-9bee-142208f171de/1f5f8c499-3fc0-49af-b692-430329102376.png" alt="Magnets" />
+          <div class="overlay"><span>View Project</span></div>
+        </div>
+        <div class="gallery-item reveal" onclick="openModal(this)">
+          <img src="https://image.qwenlm.ai/public_source/688c3fb6-16d5-48c8-9bee-142208f171de/195b13030-f6bc-4871-9342-7a0f7a5c85c1.png" alt="Engraving" />
+          <div class="overlay"><span>View Project</span></div>
+        </div>
+        <div class="gallery-item reveal" onclick="openModal(this)">
+          <img src="https://image.qwenlm.ai/public_source/688c3fb6-16d5-48c8-9bee-142208f171de/1ba501478-97c2-4fd1-b1a0-bff78891929f.png" alt="Gifts" />
+          <div class="overlay"><span>View Project</span></div>
+        </div>
+        <div class="gallery-item reveal" onclick="openModal(this)">
+          <img src="https://image.qwenlm.ai/public_source/688c3fb6-16d5-48c8-9bee-142208f171de/1f5f8c499-3fc0-49af-b692-430329102376.png" alt="Custom" />
+          <div class="overlay"><span>View Project</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats-bar">
+      <div class="stats-row reveal">
+        <div class="stat">
+          <div class="stat-num" data-target="500">0</div>
+          <div class="stat-label">Happy Customers</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-target="1200">0</div>
+          <div class="stat-label">Products Made</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-target="4">0</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-target="100">0</div>
+          <div class="stat-label">% Satisfaction</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="section-head reveal">
+        <h2>Contact Us</h2>
+        <p>Message us for orders, custom requests, or inquiries — we're here to help</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-cards reveal">
+          <div class="c-card">
+            <div class="c-icon">📘</div>
+            <div class="c-text">
+              <strong>Facebook</strong>
+              <a href="https://www.facebook.com/afablechalil" target="_blank">afablechalil</a>
+              <span>Message us anytime</span>
+            </div>
+          </div>
+          <div class="c-card">
+            <div class="c-icon">✉️</div>
+            <div class="c-text">
+              <strong>Email</strong>
+              <a href="mailto:chalilafable@gmail.com">chalilafable@gmail.com</a>
+              <span>Send your requirements</span>
+            </div>
+          </div>
+          <div class="c-card">
+            <div class="c-icon">📍</div>
+            <div class="c-text">
+              <strong>Location</strong>
+              <span>Metro Manila, Philippines</span>
+              <span>Nationwide delivery</span>
+            </div>
+          </div>
+          <div class="c-card">
+            <div class="c-icon">🕒</div>
+            <div class="c-text">
+              <strong>Hours</strong>
+              <span>Mon-Sat: 8AM - 6PM</span>
+              <span>Sunday: By appointment</span>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form-box reveal">
+          <form id="contactForm" action="https://formsubmit.co/ajax/chalilafable@gmail.com" method="POST">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="cName" name="name" placeholder="Your name" required />
+                <div class="form-error">Enter your name</div>
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="cEmail" name="email" placeholder="you@email.com" required />
+                <div class="form-error">Valid email required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" id="cPhone" name="phone" placeholder="09XX XXX XXXX" />
+            </div>
+            <div class="form-group">
+              <label>Product</label>
+              <select id="cProduct" name="product">
+                <option value="">Select...</option>
+                <option value="Modern Lapida">Modern Lapida</option>
+                <option value="Souvenirs">Custom Souvenirs</option>
+                <option value="Ref Magnets">Refrigerator Magnets</option>
+                <option value="Bulk Order">Bulk Order</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea id="cMessage" name="message" placeholder="Tell us what you need..." required></textarea>
+              <div class="form-error">Message too short</div>
+            </div>
+            <button type="submit" class="submit-btn" id="submitBtn">Send Inquiry</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-left">
+        © 2025 PrintCraft Pro. By <a href="index.html">Afable Chalil</a>
+      </div>
+      <div class="socials">
+        <a href="https://www.facebook.com/afablechalil" target="_blank" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.5 9.9v-7h-2.2V12h2.2V9.7c0-2.2 1.32-3.4 3.35-3.4.97 0 1.99.17 1.99.17v2.2h-1.12c-1.1 0-1.44.68-1.44 1.38V12h2.45l-.39 2.9h-2.06v7A10 10 0 0022 12z"/></svg>
+        </a>
+        <a href="mailto:chalilafable@gmail.com" aria-label="Email">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </a>
+        <a href="https://github.com/itschalil" target="_blank" aria-label="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.38 7.86 10.9.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.31-1.28-1.66-1.28-1.66-1.04-.71.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.96.1-.75.4-1.25.72-1.54-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.96 10.96 0 012.87-.39c.97 0 1.95.13 2.87.39 2.19-1.5 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.8 1.18 1.83 1.18 3.09 0 4.43-2.71 5.41-5.29 5.69.41.36.78 1.08.78 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.21.68.8.56A11.52 11.52 0 0023.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+        </a>
+      </div>
+    </footer>
+
+    <!-- SCROLL TOP -->
+    <div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <i>↑</i>
+    </div>
+
+    <!-- IMAGE MODAL -->
+    <div class="img-modal" id="imgModal">
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+      <img src="" alt="Gallery" id="modalImg" />
+    </div>
+
+    <script>
+      // LOADER
+      window.addEventListener('load', () => setTimeout(() => document.getElementById('loader').classList.add('hidden'), 600));
+
+      // NAV SCROLL
+      const nav = document.getElementById('navbar');
+      const scrollTopBtn = document.getElementById('scrollTop');
+      window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+        scrollTopBtn.classList.toggle('show', window.scrollY > 400);
+      });
+
+      // HAMBURGER
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.getElementById('navLinks');
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+      navLinks.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          navLinks.classList.remove('active');
+        });
+      });
+
+      // ACTIVE NAV
+      const sections = document.querySelectorAll('section[id]');
+      const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(s => {
+          if (window.scrollY >= s.offsetTop - 200) current = s.id;
+        });
+        navAnchors.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === `#${current}`);
+        });
+      });
+
+      // REVEAL ON SCROLL
+      const reveals = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            revealObserver.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      reveals.forEach(el => revealObserver.observe(el));
+
+      // COUNTER
+      let counterDone = false;
+      const statsRow = document.querySelector('.stats-row');
+      const counterObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !counterDone) {
+          counterDone = true;
+          document.querySelectorAll('.stat-num').forEach(el => {
+            const target = parseInt(el.dataset.target);
+            const dur = 2000;
+            const step = target / (dur / 16);
+            let cur = 0;
+            const tick = () => {
+              cur += step;
+              if (cur < target) {
+                el.textContent = Math.floor(cur) + (target === 100 ? '%' : '+');
+                requestAnimationFrame(tick);
+              } else {
+                el.textContent = target + (target === 100 ? '%' : '+');
+              }
+            };
+            tick();
+          });
+        }
+      }, { threshold: 0.5 });
+      counterObserver.observe(statsRow);
+
+      // GALLERY MODAL
+      function openModal(el) {
+        document.getElementById('modalImg').src = el.querySelector('img').src;
+        document.getElementById('imgModal').classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal() {
+        document.getElementById('imgModal').classList.remove('show');
+        document.body.style.overflow = '';
+      }
+      document.getElementById('imgModal').addEventListener('click', (e) => {
+        if (e.target.id === 'imgModal') closeModal();
+      });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+      // FORM
+      const form = document.getElementById('contactForm');
+      const submitBtn = document.getElementById('submitBtn');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        let valid = true;
+        const name = document.getElementById('cName');
+        const email = document.getElementById('cEmail');
+        const msg = document.getElementById('cMessage');
+
+        if (!name.value.trim()) { name.parentElement.classList.add('error'); valid = false; }
+        else name.parentElement.classList.remove('error');
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { email.parentElement.classList.add('error'); valid = false; }
+        else email.parentElement.classList.remove('error');
+
+        if (msg.value.trim().length < 10) { msg.parentElement.classList.add('error'); valid = false; }
+        else msg.parentElement.classList.remove('error');
+
+        if (!valid) return;
+
+        submitBtn.textContent = '⏳ Sending...';
+        submitBtn.disabled = true;
+
+        try {
+          const res = await fetch('https://formsubmit.co/ajax/chalilafable@gmail.com', {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(form)
+          });
+          if (!res.ok) throw new Error('Failed');
+          form.reset();
+          submitBtn.textContent = '✅ Sent!';
+          setTimeout(() => { submitBtn.textContent = 'Send Inquiry'; submitBtn.disabled = false; }, 3000);
+        } catch {
+          submitBtn.textContent = '❌ Failed';
+          setTimeout(() => { submitBtn.textContent = 'Send Inquiry'; submitBtn.disabled = false; }, 3000);
+        }
+      });
+
+      // Real-time validation clear
+      document.querySelectorAll('.form-group input, .form-group textarea').forEach(input => {
+        input.addEventListener('input', () => input.parentElement.classList.remove('error'));
+      });
+    </script>
+  </body>
+</html>
